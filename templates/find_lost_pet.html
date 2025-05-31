@@ -1,0 +1,166 @@
+{% extends "base_main.html" %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/find_loststyle.css') }}">
+
+<style>
+    body {
+        width: 100vw;
+        overflow-x: hidden;
+        padding: 0;
+        margin: 0;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+    .find-lost-card-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 기본 3열 */
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .find-lost-card {
+        border: 1px solid #ddd;
+        padding: 0.5rem;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        text-align: center;
+    }
+
+    .find-lost-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .find-lost-card img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    /* 팝업 스타일 */
+    .find-lost-popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+    }
+
+    .find-lost-popup-content {
+        background: #fff;
+        padding: 1.5rem;
+        width: 90%;
+        max-width: 400px;
+        border-radius: 8px;
+        text-align: center;
+        position: relative;
+    }
+
+    .find-lost-close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: #888;
+    }
+
+    /* 반응형 설정 */
+    @media (max-width: 768px) {
+        .find-lost-card-container {
+            grid-template-columns: repeat(2, 1fr); /* 태블릿에서 2열 */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .find-lost-card-container {
+            grid-template-columns: repeat(2, 1fr); /* 모바일에서 2열 */
+            gap: 2rem; /* 모바일에서 카드 사이의 공간 추가 */
+        }
+        .find-lost-card {
+            margin-bottom: 0.5rem; /* 카드와 카드 사이 간격 추가 */
+        }
+        .find-lost-card img {
+            height: 100px; /* 모바일 이미지 크기 조정 */
+        }
+        .find-lost-popup-content {
+            width: 100%;
+            max-width: 300px; /* 모바일에서 팝업 크기 축소 */
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="find-lost-body">
+    <h1 class="find-lost-title">잃어버린 우리 아이 찾기 등록</h1>
+
+    <!-- 카드형 레이아웃 -->
+    <div class="find-lost-card-container">
+        {% for pet in pets %}
+        <div class="find-lost-card" onclick="openPopup('{{ pet.photo_path }}', '{{ pet.name }}', '{{ pet.age }}', '{{ pet.gender }}', '{{ pet.breed }}', '{{ pet.lost_location }}', '{{ pet.personality }}')">
+            <img src="{{ pet.photo_path }}" alt="Pet Photo">
+            <h3>{{ pet.name }}</h3>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- 팝업 창 구조 -->
+    <div id="popup" class="find-lost-popup">
+        <div class="find-lost-popup-content">
+            <span class="find-lost-close-btn" onclick="closePopup()">&times;</span>
+            <img id="popup-photo" src="" alt="Pet Photo" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+            <h3 id="popup-name"></h3>
+            <p><strong>나이:</strong> <span id="popup-age"></span> 살</p>
+            <p><strong>성별:</strong> <span id="popup-gender"></span></p>
+            <p><strong>품종:</strong> <span id="popup-breed"></span></p>
+            <p><strong>잃어버린 위치:</strong> <span id="popup-lost-location"></span></p>
+            <p><strong>특이사항:</strong> <span id="popup-personality"></span></p>
+        </div>
+    </div>
+
+    <!-- 버튼 -->
+    <div class="find-lost-container">
+        <a href="{{ url_for('add_pet') }}" class="find-lost-btn">잃어버린 반려동물을 찾아주세요</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('popup').style.display = 'none';
+    });
+
+    function openPopup(photo_path, name, age, gender, breed, lost_location, personality) {
+        document.getElementById('popup-photo').src = photo_path;
+        document.getElementById('popup-name').innerText = name;
+        document.getElementById('popup-age').innerText = age;
+        document.getElementById('popup-gender').innerText = gender;
+        document.getElementById('popup-breed').innerText = breed;
+        document.getElementById('popup-lost-location').innerText = lost_location;
+        document.getElementById('popup-personality').innerText = personality;
+        document.getElementById('popup').style.display = 'flex';
+    }
+
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+    }
+</script>
+{% endblock %}

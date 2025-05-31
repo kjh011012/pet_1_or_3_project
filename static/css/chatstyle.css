@@ -1,0 +1,151 @@
+
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #F0EAD6; /* 따뜻한 크림색 배경 */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.chat-container {
+    width: 90vw; /* 뷰포트 너비의 90% */
+    max-width: 400px; /* 최대 너비를 400px로 설정 */
+    height: 85vh; /* 뷰포트 높이의 85% */
+    background-color: #FFFFFF; /* 포근한 흰색 배경 */
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 18px 36px rgba(0, 0, 0, 0.1); /* 부드러운 음영 */
+}
+
+.chat-header {
+    background-color: #FF6F61; /* 따뜻한 핑크색 */
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFFFFF;
+    font-size: 1.2em;
+}
+
+.chat-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+.chat-message {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+.message-user {
+    justify-content: flex-end;
+}
+
+.message-bot {
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.message-bubble {
+    max-width: 60%;
+    padding: 10px;
+    border-radius: 15px;
+    word-wrap: break-word;
+    position: relative;
+}
+
+/* 사용자 메시지 말풍선 스타일 */
+.user-bubble {
+    background-color: #DAF8CB; /* 부드러운 그린색 */
+    border-radius: 15px 15px 0px 15px; /* 말풍선 모양 */
+}
+
+/* 봇 메시지 말풍선 스타일 */
+.bot-bubble {
+    background-color: #ECECEC;
+    border-radius: 15px 15px 15px 0px; /* 말풍선 모양 */
+}
+
+/* 봇 상담사 이름 스타일 */
+.bot-name {
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 3px;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* 채팅 입력 부분 */
+.chat-footer {
+    padding: 10px;
+    background-color: #F7F7F7;
+    display: flex;
+}
+
+.input-box {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #8D6E63; /* 더 진한 테두리 */
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s, transform 0.3s ease-in-out; /* 클릭 시 커지는 효과 */
+}
+
+.input-box:focus {
+    border-color: #FF6F61; /* 포커스 시 따뜻한 핑크 테두리 */
+    transform: scale(1.05); /* 클릭 시 입력창이 살짝 커지도록 */
+    outline: none; /* 기본 아웃라인 제거 */
+}
+
+.send-button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #FF6F61; /* 따뜻한 핑크색 버튼 */
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s ease-in-out;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 */
+}
+
+.send-button:hover {
+    background-color: #D9574F; /* 호버 시 더 진한 핑크 */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* 더 깊은 그림자 */
+    transform: translateY(-3px); /* 버튼이 살짝 떠오르는 효과 */
+}
+
+.send-button:active {
+    transform: translateY(2px); /* 클릭 시 버튼이 눌리는 듯한 효과 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 줄어듦 */
+}
+
+/* 반응형 미디어 쿼리 */
+@media (max-width: 768px) {
+    .chat-container {
+        width: 95vw; /* 뷰포트 너비의 95% */
+        height: 80vh; /* 뷰포트 높이의 80% */
+    }
+
+    .chat-header {
+        font-size: 1em; /* 헤더 폰트 크기 축소 */
+    }
+}
+
+@media (max-width: 480px) {
+    .chat-container {
+        width: 100vw; /* 뷰포트 너비의 100% */
+        height: 85vh; /* 뷰포트 높이의 85% */
+    }
+
+    .chat-header {
+        font-size: 0.9em; /* 헤더 폰트 크기 더 축소 */
+    }
+}

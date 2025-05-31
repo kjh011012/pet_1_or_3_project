@@ -1,0 +1,592 @@
+/* 기본 스타일 */
+body {
+    font-family: 'Noto Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F0EAD6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+    padding-bottom: 80px; /* 하단 여백 추가 */
+    box-sizing: border-box; /* 박스 크기를 포함하여 일관성 유지 */
+}
+
+/* 기본 하단 네비게이션 바 스타일 */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    border-top: 1px solid #444;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+
+}
+
+
+
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.nav-item i {
+    font-size: 20px;
+    margin-bottom: 4px;
+    transition: color 0.3s;
+}
+
+.nav-item span {
+    font-size: 12px;
+}
+
+.nav-item:hover i, .nav-item:hover span {
+    color: #00aaff; /* 아이콘 호버 시 색상 변경 */
+}
+
+/* 반응형 스타일 */
+@media (max-width: 600px) {
+    .bottom-nav {
+        height: 50px;
+    }
+    .nav-item i {
+        font-size: 18px;
+    }
+    .nav-item span {
+        font-size: 10px;
+    }
+}
+
+/* 중앙 상단 박스 */
+.lost-pet-box1 {
+    position: relative;
+    width: 100%; /* 부모 컨테이너 너비 전체 사용 */
+    max-width: 1000px;
+    display: flex;
+    justify-content: center; /* 내부 요소 중앙 정렬 */
+    align-items: center;
+    padding: 1rem 0;
+    margin: 0 auto; /* 자동으로 중앙 정렬 */
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 1.0rem;
+    font-weight: bold;
+    color: #FF6F61;
+    
+}
+
+/* 아이콘 컨테이너 */
+.icon-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* 내부 아이템을 중앙에 정렬 */
+    gap: 20px; /* 아이콘 간 간격 */
+    width: 100%; /* 부모 컨테이너의 너비에 맞춤 */
+    max-width: 800px; /* 최대 너비 제한 */
+    padding: 0; /* 여백 제거 */
+    margin: 0 auto 0; /* 중앙 정렬 */
+}
+
+/* 개별 아이콘 버튼 */
+.icon-wrapper {
+    text-align: center;
+    color: #333;
+    margin: 0;
+}
+
+.icon-button {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.icon-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 텍스트 스타일 */
+.icon-text {
+    font-size: 0.8em;
+    color: #333;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+/* 반응형: 중간 크기 (태블릿) 여기서 건드리면되네....좌우...아오*/
+
+@media (max-width: 768px) {
+    .lost-pet-box1 {
+        max-width: 90%;
+        padding: 0 4vw;
+    }
+
+    .icon-container {
+        gap: 15px; /* 태블릿 화면에서 간격 줄임 */
+    }
+
+    .icon-button {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+
+
+
+
+/* 기본 .lost-pet-box 스타일 */
+.lost-pet-box {
+    background-color: #FFFFFF;
+    width: 100%; /* 슬라이드와 동일한 너비 */
+    max-width: 600px; /* 슬라이드와 동일한 최대 너비 */
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin: 1.5rem auto; /* 슬라이드와 동일한 위치에 맞추기 위해 중앙 정렬 */
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #FF6F61;
+    box-sizing: border-box;
+}
+
+/* 스마트폰 크기에서 .lost-pet-box 크기 조정 */
+@media (max-width: 480px) {
+    .lost-pet-box {
+        width: 95%; /* 스마트폰에서 너비 확장 */
+        max-width: 350px; /* 최대 너비 제한 */
+        padding: 1rem; /* 내부 여백 조정 */
+        font-size: 1rem; /* 폰트 크기 축소 */
+    }
+}
+
+/* 슬라이드 전체 컨테이너 */
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+}
+
+.slider {
+    display: flex;
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+
+/* 슬라이드 스타일 */
+.slide {
+    min-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* 카드 스타일 */
+.pet-card {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    width: 90%;
+    max-width: 300px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 반려동물 사진 스타일 */
+.pet-photo {
+    max-width: 100%;
+    width: 300px; /* 기본 사진 크기 */
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+
+/* 텍스트 정보 스타일 */
+.pet-info {
+    text-align: center;
+    color: #333;
+}
+
+.pet-info h3 {
+    margin: 0;
+    color: #FF6F61;
+    font-size: 1.1rem;
+}
+
+.pet-info p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* 기본 .campaign-box 스타일 */
+.campaign-box {
+    background-color: #FF6F61;
+    width: 100%; /* 슬라이드와 동일한 너비 */
+    max-width: 600px; /* 슬라이드와 동일한 최대 너비 */
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin: 1.5rem auto; /* 슬라이드와 동일한 위치에 맞추기 위해 중앙 정렬 */
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #FFFFFF;
+    box-sizing: border-box
+}
+
+/* 스마트폰 크기에서 .campaign-box 크기 조정 */
+@media (max-width: 480px) {
+    .campaign-box {
+        width: 95%; /* 너비를 조정하여 화면에 맞춤 */
+        max-width: 350px; /* 최대 너비 제한 */
+        padding: 1rem; /* 내부 여백 축소 */
+        font-size: 0.9rem; /* 폰트 크기 축소 */
+    }
+}
+ /* 팝업 스타일 */
+ .popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding-bottom: 80px; /* 하단 여백 추가 */
+}
+
+/* 팝업 창 스크롤 추가 */
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh; /* 화면 높이에 맞게 팝업 크기 제한 */
+    overflow-y: auto; /* 세로 스크롤 추가 */
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+/* 스마트폰 크기에서 팝업 창 크기 제한 */
+@media (max-width: 480px) {
+    .popup-content {
+        width: 90%;
+        max-width: 350px; /* 스마트폰에서 팝업 너비 제한 */
+        max-height: 60vh; /* 스마트폰에서 팝업 높이 제한 */
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .popup-photo {
+        max-height: 200px; /* 스마트폰에서 이미지 최대 높이 제한 */
+    }
+}
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    color: #FF6F61;
+    cursor: pointer;
+}
+
+.popup-header h3 {
+    margin: 0;
+    color: #FF6F61;
+}
+
+.popup-detail p {
+    margin: 0.5rem 0;
+    color: #333;
+}
+
+/* 팝업 컨텐츠 내부 이미지 크기 제한 */
+.popup-photo {
+    max-width: 100%;
+    max-height: 300px; /* 이미지 최대 높이 설정 */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .pet-photo {
+        width: 80px;
+    }
+
+    .pet-card {
+        max-width: 250px;
+    }
+
+    .pet-info h3 {
+        font-size: 1rem;
+    }
+
+    .pet-info p {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .pet-photo {
+        width: 70px;
+    }
+
+    .pet-card {
+        max-width: 220px;
+    }
+
+    .pet-info h3 {
+        font-size: 0.9rem;
+    }
+
+    .pet-info p {
+        font-size: 0.8rem;
+    }
+}
+
+/* 이미지 박스 버튼 스타일 */
+.icon-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* 버튼 간 간격 */
+    margin-top: 10px;
+
+}
+
+.icon-wrapper {
+    text-align: center;
+    color: #333;
+}
+
+.icon-button {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 10px; /* 사각형 모서리 라운드 */
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.icon-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지를 박스에 꽉 차게 표시 */
+}
+
+.icon-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.icon-text {
+    font-size: 0.8em;
+    color: #333;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+    .icon-container {
+        justify-content: flex-start; /* 좌에서 우로 정렬 */
+        gap: 10px;
+    }
+    .icon-button {
+        width: 70px; /* 작은 화면에서 크기 조정 */
+        height: 70px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+    }
+    .icon-text {
+        font-size: 0.7em;
+    }
+}
+/* 다크 모드 스타일 */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a;
+        color: #f0f0f0;
+    }
+
+    .icon-button {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* 다크 모드에서 진한 음영 */
+    }
+
+    .icon-button:hover {
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.8); /* 다크 모드에서 호버 시 더 진한 음영 */
+    }
+
+    .icon-text {
+        color: #ddd; /* 다크 모드에서 텍스트 대비 */
+    }
+}
+ /* 챗봇 버튼 고정 스타일 */
+ .chatbot-icon {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #FF6F61;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+    z-index: 1000;
+}
+
+.chatbot-icon img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지를 박스에 꽉 차게 표시 */
+}
+
+.chatbot-icon:hover {
+    transform: scale(1.1);
+}
+
+
+/* 챗봇 팝업 전체 컨테이너 */
+.chatbot-popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background: none; /* 배경 흐림 효과 제거 */
+}
+
+/* 웹 환경: 팝업 크기 설정 */
+.chatbot-popup-content {
+    background-color: white;
+    width: 85%;
+    max-width: 700px; /* 웹 환경에서 넓게 */
+    height: 80%;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+/* 모바일 환경에서 크기 조정 */
+@media (max-width: 768px) {
+    .chatbot-popup-content {
+        width: 90%;
+        max-width: 350px; /* 모바일에서 작게 */
+        height: 60%;
+        border-radius: 10px;
+    }
+
+    /* 모바일 환경: 챗봇 아이콘 크기 조정 */
+    .chatbot-icon {
+        width: 50px;
+        height: 50px;
+        bottom: 60px;
+        right: 10px;
+    }
+}
+
+/* <- 모든 페이지의 뒤로가기 버튼 */
+.back-button {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 1.5rem;
+    color: #FF6F61;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.2s;
+}
+
+.back-button:hover {
+    color: #D9574F;
+    transform: translateX(-5px);
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .btn {
+        font-size: 1.1rem;
+        padding: 0.75rem;
+    }
+
+    .back-button {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 0.7rem;
+    }
+
+    .back-button {
+        font-size: 1rem;
+    }
+}

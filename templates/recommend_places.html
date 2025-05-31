@@ -1,0 +1,167 @@
+{% extends "base_main.html" %}
+
+{% block title %}관광지 검색{% endblock %}
+
+{% block extra_styles %}
+<style>
+/* 전체 페이지 스타일 */
+body {
+    width: 100vw;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    display: flex;
+   
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f4f8;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+.main-box {
+    width: 100%;
+    max-width: 700px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: 700;
+}
+
+.selection-box h2 {
+    font-size: 1.3em;
+    margin: 20px 0 15px;
+    color: #555;
+    font-weight: 600;
+}
+
+select {
+    width: 80%;
+    padding: 8px;
+    font-size: 0.9em;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+select:hover, select:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+#submit-button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: #FF6F61;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#submit-button:hover {
+    background-color: #e85c4f;
+}
+
+/* 모바일 화면에서 메인 박스 너비 조정 */
+@media (max-width: 768px) {
+    .main-box {
+        max-width: 100%; /* 모바일 화면에서 전체 너비 사용 */
+        padding: 5px;
+    }
+
+    select {
+        width: 95%; /* 드롭다운 너비를 모바일에서 더 넓게 */
+    }
+}
+p{
+    color: #FF6F61;
+    font-size: 20px;
+    font-weight: bold;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="main-box">
+        <p>동반 가능 장소를 추천받아보세요.</p>
+
+        <form action="{{ url_for('recommend.recommend_places') }}" method="POST">
+            
+            <!-- 1차 선택: 도/광역시 (province) -->
+            {% if not province %}
+                <div class="selection-box" id="province-selection">
+                    <h2>지역을 선택해 주세요</h2>
+                    <select name="province" onchange="this.form.submit()">
+                        <option value="">-- 선택하세요 --</option>
+                        {% for prov in provinces %}
+                            <option value="{{ prov }}">{{ prov }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            <!-- 2차 선택: 시/군 (city) -->
+            {% elif not city %}
+                <div class="selection-box" id="city-selection">
+                    <h2>시/군을 선택해 주세요</h2>
+                    <input type="hidden" name="province" value="{{ province }}">
+                    <select name="city" onchange="this.form.submit()">
+                        <option value="">-- 선택하세요 --</option>
+                        {% for c in cities %}
+                            <option value="{{ c }}">{{ c }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            <!-- 3차 선택: 장소 유형 (category3) -->
+            {% elif not category %}
+                <div class="selection-box" id="category-selection">
+                    <h2>방문할 장소를 선택해 주세요</h2>
+                    <input type="hidden" name="province" value="{{ province }}">
+                    <input type="hidden" name="city" value="{{ city }}">
+                    <select name="category" onchange="this.form.submit()">
+                        <option value="">-- 선택하세요 --</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat }}">{{ cat }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            {% endif %}
+
+            <!-- 최종 제출 버튼 -->
+            {% if province and city and category %}
+                <input type="hidden" name="province" value="{{ province }}">
+                <input type="hidden" name="city" value="{{ city }}">
+                <input type="hidden" name="category" value="{{ category }}">
+                <button type="submit" id="submit-button">추천받기</button>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카카오톡 스타일 챗봇</title>
+    <!-- External CSS 추가 -->
+    <link rel="stylesheet" href="../static/css/chatstyle.css">
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">행복나침반 AI 채팅봇</div>
+
+    <div class="chat-body" id="chat-body">
+        <!-- 채팅 메시지가 이곳에 추가됩니다 -->
+    </div>
+
+    <div class="chat-footer">
+        <input type="text" id="user-input" class="input-box" placeholder="메시지를 입력하세요..." onkeydown="checkSend(event)">
+        <button class="send-button" onclick="sendMessage()">전송</button>
+    </div>
+</div>
+
+<script>
+    // 타이핑 효과를 구현하는 함수 (소개 메시지에만 적용)
+    function typeText(element, text, interval, callback) {
+        let index = 0;
+        function type() {
+            if (index < text.length) {
+                element.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(type, interval); // 일정 시간 간격으로 글자를 출력
+            } else if (callback) {
+                callback(); // 글자가 모두 출력된 후 콜백 함수 호출
+            }
+        }
+        type();
+    }
+
+    // 메시지를 채팅창에 추가하는 함수 (소개 메시지 제외 타이핑 효과 없음)
+    function appendMessage(message, sender, typingEffect = false, callback) {
+        const chatBody = document.getElementById('chat-body');
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('chat-message', sender === 'user' ? 'message-user' : 'message-bot');
+
+        // 봇인 경우 이름 추가
+        if (sender === 'bot') {
+            const botName = document.createElement('div');
+            botName.classList.add('bot-name');
+            botName.textContent = '행복 AI'; // 봇 이름을 표시
+            messageContainer.appendChild(botName);
+        }
+
+        const messageBubble = document.createElement('div');
+        messageBubble.classList.add('message-bubble', sender === 'user' ? 'user-bubble' : 'bot-bubble');
+        
+        // 타이핑 효과가 필요한 경우
+        if (typingEffect) {
+            messageContainer.appendChild(messageBubble);
+            chatBody.appendChild(messageContainer);
+            chatBody.scrollTop = chatBody.scrollHeight; // 자동 스크롤
+            typeText(messageBubble, message, 30, callback); // 타이핑 효과
+        } else {
+            // 타이핑 효과가 필요 없는 경우
+            messageBubble.innerHTML = message;
+            messageContainer.appendChild(messageBubble);
+            chatBody.appendChild(messageContainer);
+            chatBody.scrollTop = chatBody.scrollHeight; // 자동 스크롤
+            if (callback) callback(); // 콜백 함수 호출 (필요한 경우)
+        }
+    }
+
+    // 초기 메시지 출력 (페이지 로드 시 타이핑 효과 사용)
+    window.onload = function() {
+        appendMessage('안녕하세요 행복나침반 상담사 행복이 입니다. 만나서 반갑습니다!', 'bot', true, function() {
+            // 첫 번째 메시지가 끝난 후 두 번째 메시지 출력
+            setTimeout(function() {
+                appendMessage('궁금하신 내용을 질문해주세요 성심성의껏 답변해드리겠습니다~ 😊', 'bot', true);
+            }, 1000); // 1초 대기 후 출력
+        });
+    };
+
+    // 메시지를 전송하는 함수 (타이핑 효과 없이 바로 출력)
+    function sendMessage() {
+        const userInput = document.getElementById('user-input');
+        const message = userInput.value;
+
+        if (message.trim() !== '') {
+            appendMessage(message, 'user', false); // 사용자 입력 바로 출력
+            userInput.value = ''; // 입력창 초기화
+
+            // 서버로 질문을 보냄
+            fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                appendMessage(data.response, 'bot', false); // 봇 응답 바로 출력
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+
+    // Ctrl + Enter 키를 체크하여 전송하는 함수
+    function checkSend(event) {
+        if (event.ctrlKey && event.key === 'Enter') {
+            sendMessage(); // Ctrl + Enter 시 전송
+        }
+    }
+</script>
+
+</body>
+</html>

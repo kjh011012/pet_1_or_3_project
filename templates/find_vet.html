@@ -1,0 +1,141 @@
+{% extends "base_main.html" %}
+
+{% block title %}병원찾기{% endblock %}
+
+{% block extra_styles %}
+<style>
+    body {
+        width: 100vw;
+        overflow-x: hidden;
+        padding: 0;
+        margin: 0;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+    #map {
+        width: 100%;
+        height: 400px;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container">
+    <h1>반경 5km 이내 동물병원 찾기</h1>
+    <p>현재 위치를 기준으로 반경 5km 내의 동물병원을 표시합니다.</p>
+    <div id="map"></div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=47dc07043462b96e1ace2296e8be8836&libraries=services"></script>
+<script>
+    let map, userMarker, circle;
+    const markers = [];  // 동물병원 마커들을 저장할 배열
+
+    function initMap(userLat, userLng) {
+        const mapContainer = document.getElementById('map');
+        const mapOption = { 
+            center: new kakao.maps.LatLng(userLat, userLng),
+            level: 5 
+        };
+        map = new kakao.maps.Map(mapContainer, mapOption);
+
+        userMarker = new kakao.maps.Marker({
+            position: new kakao.maps.LatLng(userLat, userLng),
+            map: map
+        });
+
+        circle = new kakao.maps.Circle({
+            center: new kakao.maps.LatLng(userLat, userLng),
+            radius: 5000, // 반경 5km
+            strokeWeight: 2,
+            strokeColor: '#75B8FA',
+            strokeOpacity: 0.8,
+            fillColor: '#CFE7FF',
+            fillOpacity: 0.4
+        });
+        circle.setMap(map);
+
+        searchHospitals(userLat, userLng); // 첫 검색
+    }
+
+    function searchHospitals(lat, lng) {
+        clearMarkers();  // 기존 마커들 삭제
+
+        const places = new kakao.maps.services.Places();
+        const options = {
+            location: new kakao.maps.LatLng(lat, lng),
+            radius: 5000,
+            sort: kakao.maps.services.SortBy.DISTANCE
+        };
+        places.categorySearch('HP8', displayMarkers, options);
+    }
+
+    function displayMarkers(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+            result.forEach(place => {
+                const markerPosition = new kakao.maps.LatLng(place.y, place.x);
+                const marker = new kakao.maps.Marker({
+                    position: markerPosition,
+                    map: map
+                });
+                markers.push(marker);  // 배열에 마커 저장
+
+                const infoWindow = new kakao.maps.InfoWindow({
+                    content: `<div style="padding:5px;font-size:12px;">${place.place_name}</div>`
+                });
+                kakao.maps.event.addListener(marker, 'mouseover', function() {
+                    infoWindow.open(map, marker);
+                });
+                kakao.maps.event.addListener(marker, 'mouseout', function() {
+                    infoWindow.close();
+                });
+            });
+        }
+    }
+
+    function clearMarkers() {
+        markers.forEach(marker => marker.setMap(null));  // 모든 마커 삭제
+        markers.length = 0;  // 배열 초기화
+    }
+
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(function(position) {
+            const userLat = position.coords.latitude;
+            const userLng = position.coords.longitude;
+
+            if (!map) {
+                initMap(userLat, userLng);
+            } else {
+                const userLocation = new kakao.maps.LatLng(userLat, userLng);
+                map.setCenter(userLocation);
+                userMarker.setPosition(userLocation);
+                circle.setPosition(userLocation);
+
+                searchHospitals(userLat, userLng);  // 위치 변경 시 병원 다시 검색
+            }
+        }, function(error) {
+            alert("위치 정보를 사용할 수 없습니다.");
+        }, {
+            enableHighAccuracy: true, 
+            maximumAge: 30000, 
+            timeout: 27000 
+        });
+    } else {
+        alert("사용자의 위치 정보를 가져올 수 없습니다.");
+    }
+</script>
+{% endblock %}

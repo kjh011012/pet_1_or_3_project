@@ -1,0 +1,189 @@
+/* 기본 스타일 */
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #F0EAD6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    text-align: center;
+    padding-bottom: 80px; /* 하단 여백 추가 */
+}
+
+.form-container {
+    background-color: #FFFFFF;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 18px 36px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px; /* 웹에서 적당한 최대 너비 */
+    box-sizing: border-box;
+    position: relative;
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+    color: #FF6F61;
+    text-align: center;
+    font-size: 1.8rem; /* 적당한 제목 크기 */
+    font-weight: bolder;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    display: none; /* 기본적으로 보이지 않게 설정 */
+}
+
+/* 이름 입력 칸은 처음부터 표시 */
+.form-group:first-child {
+    display: block;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #8D6E63;
+    font-size: 1rem; /* 적당한 레이블 크기 */
+}
+
+input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #8D6E63;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem; /* 적당한 입력 폰트 크기 */
+    color: #333;
+    transition: border-color 0.3s, transform 0.3s ease-in-out;
+}
+
+input:focus {
+    border-color: #FF6F61;
+    transform: scale(1.05);
+    outline: none;
+}
+
+/* 사진 업로드 박스 */
+.photo-box {
+    width: 10vw;
+    height: 10vw;
+    border: 2px dashed #8D6E63;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 4vw;
+    position: relative;
+    overflow: hidden; /* 박스를 넘어가는 이미지 숨김 */
+}
+
+.photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지를 박스에 맞게 채우기 */
+    border-radius: 8px;
+    display: none; /* 업로드 후에만 보이게 처리 */
+}
+
+.photo-box input[type="file"] {
+    display: none;
+}
+
+
+/* 버튼 스타일 */
+button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #FF6F61;
+    border: none;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s ease-in-out;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    margin-top: 1rem;
+}
+
+button:hover {
+    background-color: #D9574F;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+}
+
+button:active {
+    transform: translateY(2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 웹과 모바일 모두에 적합한 반응형 디자인 */
+@media (max-width: 1200px) {
+    .form-container {
+        padding: 1.5rem;
+        max-width: 80vw; /* 중간 화면에서 최대 너비 설정 */
+    }
+
+    h2 {
+        font-size: 1.6rem; /* 반응형 제목 크기 */
+    }
+
+    input[type="text"], input[type="number"] {
+        padding: 0.9rem;
+        font-size: 1rem;
+    }
+
+    button {
+        padding: 0.9rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* 작은 화면 (스마트폰) 대응 */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem; /* 모바일에서 기본 여백 줄임 */
+    }
+
+    .form-container {
+        padding: 1.5rem;
+        max-width: 90vw; /* 모바일에서는 더 넓게 사용 */
+    }
+
+    h2 {
+        font-size: 1.4rem; /* 작은 화면에 맞춘 제목 크기 */
+    }
+
+    input[type="text"], input[type="number"] {
+        padding: 0.8rem;
+        font-size: 0.9rem; /* 입력 폰트 크기 조정 */
+    }
+
+    button {
+        padding: 0.8rem;
+        font-size: 1rem; /* 작은 화면에서의 버튼 글자 크기 */
+    }
+}
+
+/* 매우 작은 화면 (초소형 스마트폰) 대응 */
+@media (max-width: 480px) {
+    .form-container {
+        padding: 1rem;
+        max-width: 100vw;
+    }
+
+    h2 {
+        font-size: 1.2rem; /* 더 작은 화면에 맞춘 제목 크기 */
+    }
+
+    input[type="text"], input[type="number"] {
+        padding: 0.5rem;
+        font-size: 0.85rem; /* 매우 작은 화면에 맞춘 입력 폰트 크기 */
+    }
+
+    button {
+        padding: 0.5rem;
+        font-size: 0.9rem; /* 매우 작은 화면에서의 버튼 글자 크기 */
+    }
+}

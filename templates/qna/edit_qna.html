@@ -1,0 +1,20 @@
+{% extends "base_qna.html" %}
+{% block content %}
+    <div class="qna-edit">
+        <h2>질문 수정</h2>
+
+        <form action="{{ url_for('qna.edit_qna', qna_id=qna.id) }}" method="POST" class="qna-form">
+            <label for="author">작성자:</label>
+            <input type="text" id="author" name="author" value="{{ qna.author }}" required>
+
+            <label for="question">질문 내용:</label>
+            <textarea id="question" name="question" required>{{ qna.question }}</textarea>
+
+            <label for="answer">답변:</label>
+            <textarea id="answer" name="answer" 
+              {% if not session.get('is_admin') %}readonly{% endif %}>{{ answer }}</textarea>
+
+            <button type="submit" class="btn submit-btn">수정 완료</button>
+        </form>
+    </div>
+{% endblock %}

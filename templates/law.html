@@ -1,0 +1,293 @@
+{% extends "base_main.html" %}
+
+{% block title %}동물보호 법률정보{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        text-align: center;
+    }
+    .card-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .card {
+        border: 1px solid #ddd;
+        padding: 1rem;
+        border-radius: 12px;
+        background-color: #f5f5f5;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card h2 {
+        font-size: 1.2rem;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    .select-dropdown {
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        width: 100%;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+    .submit-button {
+        margin-top: 2rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .submit-button:hover {
+        background-color: #388E3C;
+    }
+    .law_chat_popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        height: 600px;
+        padding: 1.5rem;
+        border-radius: 20px;
+        background-color: #ffffff;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+        border: 2px solid #4CAF50;
+        z-index: 9999;
+    }
+    .law_chat_popup.open {
+        display: block;
+    }
+    .law_chat_popup h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #4CAF50;
+        text-align: center;
+    }
+    .law_chat_popup .messages {
+        max-height: 400px;
+        overflow-y: auto;
+        margin: 1rem 0;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    .message {
+        display: block;
+        margin-bottom: 1rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        line-height: 1.4;
+        max-width: 80%;
+    }
+    .message.user {
+        text-align: right;
+        background-color: #e0f7fa;
+        color: #00796B;
+    }
+    .message.bot {
+        text-align: left;
+        background-color: #fff3e0;
+        color: #F57C00;
+    }
+    .law_chat_popup .input-container {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+    }
+    .law_chat_popup .input-field {
+        flex: 1;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+    }
+    .law_chat_popup .send-button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0 0.5rem;
+        color: #4CAF50;
+        font-size: 1.5rem;
+    }
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 1.2rem;
+        color: #888;
+        cursor: pointer;
+    }
+
+/* Mobile styles */
+@media (max-width: 480px) {
+        .container {
+            padding: 1rem 0.5rem;
+        }
+        .card-container {
+            gap: 0.5rem;
+        }
+        .card {
+            padding: 0.75rem;
+        }
+        .card h2 {
+            font-size: 1rem;
+        }
+        .select-dropdown {
+            font-size: 0.9rem;
+            padding: 0.4rem;
+        }
+        .submit-button {
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+        }
+        .law_chat_popup {
+            width: 75%;
+            height: 60%;
+            padding: 1rem;
+        }
+        .law_chat_popup h3 {
+            font-size: 1.2rem;
+        }
+        .law_chat_popup .messages {
+            max-height: 40%;
+            padding: 0.5rem;
+        }
+        .law_chat_popup .input-field {
+            font-size: 0.9rem;
+            padding: 0.4rem;
+        }
+    }
+    body {
+    width: 100vw; /* 뷰포트 너비에 맞게 설정 */
+    overflow-x: hidden; /* 가로 스크롤 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px; /* 화면의 중앙에 고정 */
+    margin: 0 auto; /* 좌우 여백을 자동으로 */
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* 스마트폰 크기에서 레이아웃 조정 */
+@media (max-width: 480px) {
+    .lost-pet-box,
+    .campaign-box,
+    .slider-container {
+        width: 95%; /* 화면에 꽉 차도록 너비 조정 */
+        max-width: none; /* 최대 너비 제한 해제 */
+        margin: 0 auto; /* 중앙 정렬 */
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>동물보호 법률정보</h1>
+
+<div class="container">
+    <div class="card-container">
+        <div class="card">
+            <h2>1. 지역 선택</h2>
+            <select id="regionSelect" class="select-dropdown">
+                <option value="" disabled selected>지역을 선택하세요</option>
+                <option value="서울특별시">서울특별시</option>
+                <option value="경기도">경기도</option>
+                <option value="부산광역시">부산광역시</option>
+            </select>
+        </div>
+
+        <div class="card">
+            <h2>2. 법률 카테고리 선택</h2>
+            <select id="categorySelect" class="select-dropdown">
+                <option value="" disabled selected>법률 카테고리를 선택하세요</option>
+                <option value="동물보호법">동물보호법</option>
+                <option value="반려동물법">반려동물법</option>
+                <option value="야생동물법">야생동물법</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="submit-button" onclick="openLawChatPopup()">채팅 시작</button>
+</div>
+
+<div id="lawChatPopup" class="law_chat_popup">
+    <span class="close-button" onclick="closeLawChatPopup()">×</span>
+    <h3>법률 정보 챗봇</h3>
+    <div class="messages" id="lawChatMessages"></div>
+    <div class="input-container">
+        <input type="text" id="lawUserInput" class="input-field" placeholder="질문을 입력하세요">
+        <button class="send-button" onclick="sendLawMessage()">
+            <i class="fa fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+
+<script>
+    function openLawChatPopup() {
+        const region = document.getElementById("regionSelect").value;
+        const category = document.getElementById("categorySelect").value;
+
+        if (region && category) {
+            sessionStorage.setItem("region", region);
+            sessionStorage.setItem("category", category);
+            document.getElementById("lawChatPopup").classList.add("open");
+        } else {
+            alert("지역과 법률 카테고리를 모두 선택해 주세요.");
+        }
+    }
+
+    function closeLawChatPopup() {
+        document.getElementById("lawChatPopup").classList.remove("open");
+    }
+
+    function sendLawMessage() {
+        const userMessage = document.getElementById("lawUserInput").value;
+        const messagesContainer = document.getElementById("lawChatMessages");
+
+        if (userMessage.trim() === "") return;
+
+        const userMessageElement = document.createElement("div");
+        userMessageElement.className = "message user";
+        userMessageElement.textContent = userMessage;
+        messagesContainer.appendChild(userMessageElement);
+        
+        const region = sessionStorage.getItem("region");
+        const category = sessionStorage.getItem("category");
+
+        fetch("/law_chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: userMessage, region, category })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const botMessageElement = document.createElement("div");
+            botMessageElement.className = "message bot";
+            botMessageElement.textContent = data.response;
+            messagesContainer.appendChild(botMessageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+
+        document.getElementById("lawUserInput").value = "";
+    }
+</script>
+{% endblock %}

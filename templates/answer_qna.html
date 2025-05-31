@@ -1,0 +1,30 @@
+{% extends "base_qna.html" %}
+{% block content %}
+    <div class="qna-answer">
+        <h2>답변 작성</h2>
+        
+        <!-- 질문 정보 섹션 -->
+        <div class="question-info">
+            <p><strong>작성자:</strong> {{ qna.author }}</p>
+            <p><strong>작성일:</strong> {{ qna.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+            <label for="question"><strong>질문 내용:</strong></label>
+            <div class="question-text" id="question">{{ qna.question }}</div>
+        </div>
+
+        <!-- 답변 입력 폼 -->
+        <form action="{{ url_for('qna.answer_qna', qna_id=qna.id) }}" method="POST" class="qna-form">
+            <label for="answer">답변 내용:</label>
+            <textarea id="answer" name="answer" required>{{ qna.answer or '' }}</textarea>
+            <button type="submit" class="btn submit-btn">답변 저장</button>
+        </form>
+
+        <!-- 답변 완료 후 답변 시간 표시 -->
+        {% if qna.answer and qna.updated_at %}
+            <div class="answer-time">
+                <p><strong>답변한 날짜 및 시간:</strong> {{ qna.updated_at.strftime('%Y-%m-%d %H:%M') }}</p>
+            </div>
+        {% endif %}
+
+        <a href="{{ url_for('qna.qna_list') }}" class="back-link">QnA 목록으로 돌아가기</a>
+    </div>
+{% endblock %}

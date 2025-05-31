@@ -1,0 +1,325 @@
+{% extends "base_main.html" %}
+
+{% block title %}자가진단{% endblock %}
+{% block extra_styles %}
+<style>
+    /* 전체 배경 및 기본 설정 */
+    body {
+        font-family: 'Noto Sans', sans-serif;
+        background-color: #F9F9F9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        background-color: #FFFFFF;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 0rem;
+        max-width: 600px;
+        text-align: center;
+        width: 90%;
+        margin: 1rem auto; /* 가운데 정렬 및 위아래 마진 */
+        box-sizing: border-box;
+    }
+
+    /* 제목 스타일 */
+    header h1 {
+        color: #FF6B6B;
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    h2 {
+        color: #4A4A4A;
+        font-weight: 600;
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+    }
+
+    /* 선택 섹션 스타일 */
+    .species-selection,
+    .symptom-selection {
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #555;
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+
+    select {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border: 1px solid #DDD;
+        border-radius: 5px;
+        background-color: #FFF;
+        transition: border-color 0.3s ease;
+        margin-bottom: 1rem;
+    }
+
+    select:focus {
+        outline: none;
+        border-color: #FF6B6B;
+    }
+
+    /* 버튼 스타일 */
+    button[type="submit"] {
+        background-color: #FF6B6B;
+        color: #FFF;
+        font-weight: 700;
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        width: 100%;
+        max-width: 200px;
+        margin-top: 1rem;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #E45A5A;
+        transform: translateY(-2px);
+    }
+
+    button[type="submit"]:active {
+        transform: translateY(1px);
+    }
+
+    /* 반응형 스타일 */
+    @media (max-width: 480px) {
+        header h1 {
+            font-size: 1.2rem;
+        }
+
+        h2 {
+            font-size: 1rem;
+        }
+
+        select {
+            font-size: 0.9rem;
+            padding: 0.4rem;
+        }
+
+        button[type="submit"] {
+            padding: 0.7rem 1.2rem;
+            font-size: 0.9rem;
+        }
+    }
+    /* 응급조치 결과 섹션 스타일 */
+    .final-answer-section {
+        text-align: center;
+        margin-top: 2rem;
+        padding: 1rem;
+    }
+
+    .final-answer-section h2 {
+        color: #FF6B6B;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .response-card {
+        background: #fff5f5;
+        border: 2px solid #FF6B6B;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 10px rgba(255, 107, 107, 0.2);
+        display: inline-block;
+        max-width: 90%;
+        margin: 0 auto;
+    }
+
+    .response-icon {
+        font-size: 2.5rem;
+        color: #FF6B6B;
+        margin-bottom: 0.5rem;
+    }
+
+    .response-text {
+        color: #333;
+        font-size: 1.2rem;
+        line-height: 1.6;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    .button-group {
+        margin-top: 1.5rem;
+    }
+
+    .button-group button {
+        background-color: #FF6B6B;
+        color: #FFF;
+        font-weight: 700;
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        margin: 0.5rem;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .button-group button:hover {
+        background-color: #E45A5A;
+        transform: translateY(-2px);
+    }
+
+    /* 반응형 */
+    @media (max-width: 480px) {
+        .final-answer-section h2 {
+            font-size: 1.5rem;
+        }
+
+        .response-text {
+            font-size: 1rem;
+        }
+
+        .button-group button {
+            font-size: 0.9rem;
+            padding: 0.7rem 1.2rem;
+        }
+    }
+    .response-text {
+    color: #333;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    font-weight: 500;
+    text-align: center;
+    white-space: pre-line; /* 줄 바꿈을 위한 설정 */
+}
+@font-face {
+    font-family: 'Noto Sans KR';
+    src: url('/path/to/NotoSansKR-Regular.woff2') format('woff2'),
+         url('/path/to/NotoSansKR-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body, .response-text, .final-answer-section {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    {% if final_response %}
+    <!-- 응급조치 결과 섹션 -->
+    <section class="final-answer-section">
+        <h2>응급조치 결과</h2>
+        <div id="response-card" class="response-card">
+            <div class="response-icon">💊</div>
+            <p class="response-text">{{ final_response }}</p>
+        </div>
+        <div class="button-group">
+            <button onclick="retrySelection()">다시 선택하기</button>
+            <button onclick="downloadPDF()" class="btn btn-primary">PDF로 저장하기</button>
+        </div>
+    </section>
+    {% else %}
+    <!-- 반려동물 종류 및 증상 선택 섹션 -->
+    <header>
+        <h1>반려동물 응급조치에 대해 알아보세요</h1>
+    </header>
+
+    <section class="species-selection">
+        
+        <form id="speciesForm" method="post" action="{{ url_for('emergency.get_symptom_hierarchy') }}">
+            <label for="species">반려동물의 종류를 선택해 주세요.</label>
+            <select id="species" name="species" required onchange="this.form.submit()">
+                <option value="">선택</option>
+                <option value="dog" {% if species == "dog" %}selected{% endif %}>강아지</option>
+                <option value="cat" {% if species == "cat" %}selected{% endif %}>고양이</option>
+                <option value="both" {% if species == "both" %}selected{% endif %}>기타</option>
+            </select>
+        </form>
+    </section>
+
+    {% if symptoms %}
+    <section class="symptom-selection">
+        
+        <form id="symptomForm" method="post" action="{{ url_for('emergency.get_symptom_hierarchy') }}">
+            <input type="hidden" name="species" value="{{ species }}">
+
+            <label for="mainSymptom">대분류</label>
+            <select id="mainSymptom" name="mainSymptom" onchange="this.form.submit()">
+                <option value="">선택</option>
+                {% for main in symptoms %}
+                    <option value="{{ main['대분류'].id }}" {% if mainSymptom == main['대분류'].id|string %}selected{% endif %}>{{ main['대분류'].name }}</option>
+                {% endfor %}
+            </select>
+
+            {% if subSymptoms %}
+                <label for="subSymptom">중분류</label>
+                <select id="subSymptom" name="subSymptom" onchange="this.form.submit()">
+                    <option value="">선택</option>
+                    {% for sub in subSymptoms %}
+                        <option value="{{ sub['중분류'].id }}" {% if subSymptom == sub['중분류'].id|string %}selected{% endif %}>{{ sub['중분류'].name }}</option>
+                    {% endfor %}
+                </select>
+            {% endif %}
+
+            {% if detailedSymptoms %}
+                <label for="detailedSymptom">소분류</label>
+                <select id="detailedSymptom" name="detailedSymptom">
+                    <option value="">선택</option>
+                    {% for detail in detailedSymptoms %}
+                        <option value="{{ detail.id }}">{{ detail.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" formaction="{{ url_for('emergency.submit_response') }}">증상 제출</button>
+            {% endif %}
+        </form>
+    </section>
+    {% else %}
+        <p>대분류 증상이 표시되지 않습니다. 선택된 종에 해당하는 데이터가 있는지 확인하세요.</p>
+    {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script>
+    // PDF로 저장하는 함수 (POST 방식)
+    function downloadPDF() {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ url_for("emergency.download_pdf") }}';
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+     // 다시 선택하기 함수 (POST 요청으로 변경)
+     function retrySelection() {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = "{{ url_for('emergency.get_symptom_hierarchy') }}";
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+    
+</script>
+{% endblock %}

@@ -1,0 +1,193 @@
+{% extends "base_main.html" %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/addstyle.css') }}">
+
+
+    <style>
+    body {
+        width: 100vw; /* 뷰포트 너비에 맞게 설정 */
+        overflow-x: hidden; /* 가로 스크롤 제거 */
+        padding: 0;
+        margin: 0;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 600px; /* 화면의 중앙에 고정 */
+        margin: 0 auto; /* 좌우 여백을 자동으로 */
+        padding: 0rem;
+        box-sizing: border-box;
+    }
+    
+    /* 스마트폰 크기에서 레이아웃 조정 */
+    @media (max-width: 480px) {
+        .lost-pet-box,
+        .campaign-box,
+        .slider-container {
+            width: 100%; /* 화면에 꽉 차도록 너비 조정 */
+            max-width: none; /* 최대 너비 제한 해제 */
+            margin: 0 auto; /* 중앙 정렬 */
+        }
+    }
+    
+    </style>
+
+
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>반려동물 등록</h2>
+    <form id="petForm" method="POST" enctype="multipart/form-data">
+        <!-- 이름 입력 -->
+        <div class="form-group" id="nameGroup">
+            <label for="name">이름:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <!-- 나이 입력 -->
+        <div class="form-group" id="ageGroup">
+            <label for="age">나이:</label>
+            <input type="number" id="age" name="age">
+        </div>
+
+        <!-- 성별 입력 -->
+        <div class="form-group" id="genderGroup">
+            <label for="gender">성별:</label>
+            <input type="text" id="gender" name="gender">
+        </div>
+
+        <!-- 특징 입력 -->
+        <div class="form-group" id="pet_typeGroup">
+            <label for="pet_type">반려 동물종류:</label>
+            <input type="text" id="pet_type" name="pet_type">
+        </div>
+        <div class="form-group" id="breedGroup">
+            <label for="breed">품종:</label>
+            <input type="text" id="breed" name="breed">
+        </div>
+        <!-- 특징 입력 -->
+        <div class="form-group" id="featureGroup">
+            <label for="feature">특징:</label>
+            <input type="text" id="feature" name="feature">
+        </div>
+
+        <!-- 성격 입력 -->
+        <div class="form-group" id="personalityGroup">
+            <label for="personality">성격:</label>
+            <input type="text" id="personality" name="personality">
+        </div>
+
+        <!-- 좋아하는 것 입력 -->
+        <div class="form-group" id="favoriteGroup">
+            <label for="favorite">좋아하는 것:</label>
+            <input type="text" id="favorite" name="favorite">
+        </div>
+
+        <!-- 잃어버린 장소 입력 -->
+        <div class="form-group" id="lostLocationGroup">
+            <label for="lost_location">잃어버린 장소:</label>
+            <input type="text" id="lost_location" name="lost_location">
+        </div>
+
+        <!-- 사진 업로드 박스들 -->
+        <div class="form-group" id="photoGroup1">
+            <label for="photo">사진:</label>
+            <div class="photo-box" id="photoBox1">
+                <input type="file" id="photo" name="photo" accept="image/*">
+                <img id="preview1" alt="사진 미리보기">
+         
+            </div>
+        
+        </div>
+
+        <!-- 제출 버튼 -->
+        <button type="submit">등록</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+   
+        document.getElementById('name').addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                document.getElementById('ageGroup').style.display = 'block';
+            }
+        });
+
+        document.getElementById('age').addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                document.getElementById('genderGroup').style.display = 'block';
+            }
+        });
+
+        document.getElementById('gender').addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                document.getElementById('pet_typeGroup').style.display = 'block';
+            }
+        });
+
+        document.getElementById('pet_type').addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                document.getElementById('breedGroup').style.display = 'block';
+            }
+        });
+        document.getElementById('breed').addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                document.getElementById('featureGroup').style.display = 'block';
+            }
+        });
+        document.getElementById('feature').addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                document.getElementById('personalityGroup').style.display = 'block';
+            }
+        });
+
+        document.getElementById('personality').addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                document.getElementById('favoriteGroup').style.display = 'block';
+            }
+        });
+
+        document.getElementById('favorite').addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                document.getElementById('lostLocationGroup').style.display = 'block';
+            }
+        });
+
+        document.getElementById('lost_location').addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                document.getElementById('photoGroup1').style.display = 'block';
+            }
+        });
+
+        // 사진 업로드 박스 클릭 이벤트 및 미리보기
+        const photoBoxes = ['photoBox1'];
+        photoBoxes.forEach((boxId, index) => {
+            const photoBox = document.getElementById(boxId);
+            const photoInput = document.getElementById(`photo`);
+            const previewImage = document.getElementById(`preview${index + 1}`);
+
+            // 클릭 시 파일 선택
+            photoBox.addEventListener('click', function() {
+                photoInput.click();
+            });
+
+            // 선택한 파일 미리보기
+            photoInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewImage.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    
+</script>
+{% endblock %}

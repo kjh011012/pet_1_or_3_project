@@ -1,0 +1,211 @@
+{% extends "base_main.html" %}
+
+{% block title %}견종백과{% endblock %}
+{% block extra_styles %}
+<style>
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    /* 그리드 설정 */
+    .breed-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .breed-card {
+        border: 1px solid #ddd;
+        padding: 0.5rem;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        text-align: center;
+    }
+
+    .breed-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .breed-card img {
+        width: 100%;
+        height: 100px;
+        object-fit: fill; /* 이미지가 잘리지 않고 카드 크기에 맞추어 조정 */
+        border-radius: 8px;
+    }
+    .breed-card h2 {
+        font-size: 0.9rem;
+        color: #333;
+        margin-top: 0.5rem;
+    }
+
+    /* 팝업 스타일 */
+    .popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 90%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+    }
+
+    .popup-content {
+        background: #fff;
+        padding: 1.5rem;
+        width: 70%;
+        max-width: 400px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .popup-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: #888;
+    }
+
+    /* 반응형 설정 */
+    @media (max-width: 768px) {
+        .breed-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .breed-grid {
+            grid-template-columns: repeat(2, 1fr);
+            width: 100%;
+        }
+        .breed-card img {
+            height: 80px;
+        }
+        .breed-card h2 {
+            font-size: 0.8rem;
+        }
+        .popup-content {
+            width: 90%;
+            max-width: 300px;
+        }
+        .breed-card img {
+            object-fit: contain;
+        }
+        
+    }
+    body {
+    width: 100vw; /* 뷰포트 너비에 맞게 설정 */
+    overflow-x: hidden; /* 가로 스크롤 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px; /* 화면의 중앙에 고정 */
+    margin: 0 auto; /* 좌우 여백을 자동으로 */
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* 스마트폰 크기에서 레이아웃 조정 */
+@media (max-width: 480px) {
+    .lost-pet-box,
+    .campaign-box,
+    .slider-container {
+        width: 95%; /* 화면에 꽉 차도록 너비 조정 */
+        max-width: none; /* 최대 너비 제한 해제 */
+        margin: 0 auto; /* 중앙 정렬 */
+    }
+}
+.search-bar {
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 300px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <input type="text" id="searchBar" class="search-bar" placeholder="고양이 검색" oninput="filterBreeds()">
+    <div class="breed-grid" id="breedContainer">
+        <!-- 강아지 품종 카드들이 여기에 추가됩니다 -->
+    </div>
+</div>
+
+
+
+<!-- 팝업 -->
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-content">
+        <span class="popup-close" onclick="closePopup()">×</span>
+        <h2 id="breedName"></h2>
+        <img id="breedImage" src="" alt="고양이 이미지" style="width: 100%; border-radius: 8px; margin-top: 1rem;">
+        <p><strong>수명:</strong> <span id="breedLifeSpan"></span></p>
+        <p><strong>성격:</strong> <span id="breedTemperament"></span></p>
+        <p><strong>무게:</strong> <span id="breedWeight"></span></p>
+        <p><strong>높이:</strong> <span id="breedHeight"></span></p>
+    </div>
+</div>
+
+<script>
+    let breedData = []; // 전체 견종 데이터를 저장
+
+async function fetchBreeds() {
+    const response = await fetch('/api/get_breeds_cat');  
+    breedData = await response.json(); // 전체 데이터를 저장해둡니다.
+    displayBreeds(breedData);
+}
+
+function displayBreeds(breeds) {
+    const breedContainer = document.getElementById('breedContainer');
+    breedContainer.innerHTML = ''; // 기존의 카드들을 제거하고 다시 추가
+    breeds.forEach(breed => {
+        const card = document.createElement('div');
+        card.classList.add('breed-card');
+        card.innerHTML = `
+            <img src="${breed.image}" alt="${breed.name}">
+            <h2>${breed.name}</h2>
+        `;
+        card.addEventListener('click', () => openPopup(breed));
+        breedContainer.appendChild(card);
+    });
+}
+
+function openPopup(breed) {
+        // 고양이 품종 정보를 팝업에 설정
+        document.getElementById('breedName').textContent = breed.name;
+        document.getElementById('breedImage').src = breed.image;
+        document.getElementById('breedLifeSpan').textContent = breed.life_span || '정보 없음';
+        document.getElementById('breedTemperament').textContent = breed.temperament || '정보 없음';
+        document.getElementById('breedWeight').textContent = breed.weight || '정보 없음';
+        document.getElementById('breedHeight').textContent = breed.height || '정보 없음';
+
+        // 팝업을 보이게 설정
+        document.getElementById('popupOverlay').style.display = 'flex';
+    }
+
+    function closePopup() {
+        // 팝업을 숨기기
+        document.getElementById('popupOverlay').style.display = 'none';
+    }
+
+document.addEventListener('DOMContentLoaded', fetchBreeds);
+</script>
+{% endblock %}

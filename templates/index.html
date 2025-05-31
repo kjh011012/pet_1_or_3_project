@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>행복 나침반</title>
+    <!-- External CSS 추가 -->
+    <link rel="stylesheet" href="../static/css/indexstyle.css">
+    <!-- Google Fonts 추가 -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+ 
+
+    <!-- 모든 콘텐츠를 감싸는 하나의 박스 -->
+    <div class="content-box">
+        <div class="text_box">
+            행 복 나 침 반
+        </div>
+        <!-- 이미지 추가 -->
+        <div class="image-container" id="image-container">
+            <img src="../static/images/mainphoto.png" alt="환영 이미지">
+        </div>
+
+        <!-- 행복 나침반 제목 (타이핑 효과 적용) -->
+        <div class="final-message typing" id="final-message">
+            행복 나침반에 오신것을 환영합니다
+        </div>
+
+        <!-- 로그인 및 사인업 버튼 -->
+        <div class="button-container" id="button-container">
+            <p><a href="{{ url_for('login') }}">Log In</a></p>
+            <p><a href="{{ url_for('signup') }}">Sign Up</a></p>
+        </div>
+    </div>
+
+    <script>
+        const imageContainer = document.getElementById('image-container');
+        const buttonContainer = document.getElementById('button-container');
+
+        // 이미지와 버튼 서서히 나타남
+        setTimeout(() => {
+            imageContainer.style.opacity = 1; // 이미지가 서서히 나타남
+            setTimeout(() => {
+                buttonContainer.style.opacity = 1; // 로그인/사인업 버튼이 서서히 나타남
+            }, 2000); // 이미지가 완전히 나타난 후 2초 뒤 버튼이 나타남
+        }, 1000); // 페이지 로드 후 1초 뒤 이미지 표시 시작
+    </script>
+</body>
+</html>

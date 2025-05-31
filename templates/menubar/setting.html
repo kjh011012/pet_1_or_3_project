@@ -1,0 +1,185 @@
+{% extends "base_main.html" %}
+
+{% block title %}설정{% endblock %}
+
+{% block extra_styles %}
+    <style>
+        /* 전체 페이지 스타일 */
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            background-color: #F0EAD6;
+            overflow-x: hidden;
+        }
+
+        /* 메인 컨테이너 스타일 */
+.main-container {
+    border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: none;
+    border-radius: 20px;
+    padding: 2rem;
+    background-color: #FFFFFF;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 18px 36px rgba(0, 0, 0, 0.1);
+    width: 100%; /* 부모 요소 너비에 맞추기 */
+    max-width: 800px; /* 중앙 정렬 최대 너비 */
+    margin: 5vh 0 0; /* 중앙 정렬 */
+    transition: transform 0.3s ease-in-out;
+}
+
+        .info-box {
+            width: 45%;
+            text-align: left;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #FF6F61;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: #FF6F61;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #FF6F61;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+            color: #555;
+            padding-left: 10px;
+        }
+
+        strong {
+            font-weight: bold;
+            color: #444;
+        }
+
+        /* 버튼 스타일 */
+        .edit-button {
+            display: inline-block;
+            background-color: #FF6F61;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s ease-in-out;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .edit-button:hover {
+            background-color: #D9574F;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .edit-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 미디어 쿼리 (태블릿 및 큰 스마트폰용) */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                align-items: center;
+                padding: 1.5rem;
+            }
+
+            .info-box {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* 미디어 쿼리 (스마트폰) */
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 0;
+                margin-top: 4vh;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .edit-button {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        body {
+    width: 100vw; /* 뷰포트 너비에 맞게 설정 */
+    overflow-x: hidden; /* 가로 스크롤 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px; /* 화면의 중앙에 고정 */
+    margin: 0 auto; /* 좌우 여백을 자동으로 */
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* 스마트폰 크기에서 레이아웃 조정 */
+@media (max-width: 480px) {
+    .lost-pet-box,
+    .campaign-box,
+    .slider-container {
+        width: 95%; /* 화면에 꽉 차도록 너비 조정 */
+        max-width: none; /* 최대 너비 제한 해제 */
+        margin: 0 auto; /* 중앙 정렬 */
+    }
+}
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="main-container">
+        <!-- 사람 정보 섹션 -->
+        <div class="info-box">
+            <h2>나의 정보</h2>
+            <p><strong>이름:</strong> {{ user_info.pername }}</p>
+            <p><strong>나이:</strong> {{ user_info.age }}</p>
+            <p><strong>성별:</strong> {{ user_info.gender }}</p>
+            <p><strong>전화번호:</strong> {{ user_info.tel }}</p>
+        </div>
+
+        <!-- 반려동물 정보 섹션 -->
+        <div class="info-box">
+            <h2>반려동물 정보</h2>
+            <p><strong>이름:</strong> {{ user_info.pet_name }}</p>
+            <p><strong>품종:</strong> {{ user_info.pet_breed }}</p>
+            <p><strong>나이:</strong> {{ user_info.pet_age }}</p>
+            <p><strong>성별:</strong> {{ user_info.pet_gender }}</p>
+            <p><strong>종류:</strong> {{ user_info.pet_type }}</p>
+        </div>
+    </div>
+
+    <!-- 수정 버튼 -->
+    <div style="text-align: center;">
+        <a href="{{ url_for('menubar.setting') }}" class="edit-button">정보 수정</a>
+    </div>
+{% endblock %}

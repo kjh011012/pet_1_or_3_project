@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/baseqna.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+      
+        <i class="fa-solid fa-arrow-left back-button" onclick="goBack()"></i>
+        
+  
+        <h1>{{ title }}</h1>
+
+        {% block content %}{% endblock %}
+    </div>
+
+    
+
+       <!-- 하단 네비게이션 바 -->
+<div class="bottom-nav">
+    <a href="{{ url_for('menubar.Noticeboard') }}" class="nav-item">
+        <i class="fa-solid fa-bullhorn"></i>
+        <span>공지사항</span>
+    </a>
+    <a href="{{ url_for('menubar.Free_bulletin_board') }}" class="nav-item">
+        <i class="fa-solid fa-comments"></i>
+        <span>자유게시판</span>
+    </a>
+    <a href="{{ url_for('menubar.encyclopedia') }}" class="nav-item">
+        <i class="fa-solid fa-book"></i>
+        <span>동물사전</span>
+
+    <a href="{{ url_for('main') }}" class="nav-item">
+        <i class="fa-solid fa-home"></i>
+        <span>Main</span>
+    </a>
+    <a href="{{ url_for('qna.qna_list') }}" class="nav-item">
+        <i class="fa-solid fa-question-circle"></i>
+        <span>Q&A</span>
+    </a>
+    <a href="{{ url_for('menubar.setting') }}" class="nav-item">
+        <i class="fa-solid fa-user-cog"></i>
+        <span>나의 정보</span>
+    </a>
+    <a href="{{ url_for('menubar.logout') }}" class="nav-item">
+        <i class="fa-solid fa-sign-out-alt"></i>
+        <span>로그아웃</span>
+    </a>
+</div>
+    <!-- 드롭다운 메뉴 스크립트 -->
+    <script>
+         function toggleDropdown() {
+            const menu = document.getElementById("dropdownMenu");
+            menu.classList.toggle("show");
+        }
+        
+        function goBack() {
+            window.history.back();
+        }
+        // 메뉴 외부를 클릭했을 때 닫히는 이벤트 리스너
+        document.addEventListener("click", function(event) {
+            const menu = document.getElementById("dropdownMenu");
+            const menuIcon = document.querySelector(".fa-bars");
+            
+            if (!menu.contains(event.target) && !menuIcon.contains(event.target)) {
+                menu.classList.remove("show");
+            }
+        });
+        // 뒤로 가기 함수
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    <style>
+       /* 하단 네비게이션 바 스타일 */
+       .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+        }
+
+        .nav-item:hover {
+            color: #00aaff;
+        }
+        
+    </style>
+</body>
+</html>

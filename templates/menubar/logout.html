@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그아웃</title>
+</head>
+<body>
+    <script>
+        // 로그아웃 메시지 표시 후 메인 페이지로 리디렉션
+        alert("로그아웃 되었습니다. 다시 뵙겠습니다!");
+        window.location.href = "{{ url_for('index') }}";
+    </script>
+</body>
+</html>

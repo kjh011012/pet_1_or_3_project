@@ -1,0 +1,146 @@
+
+{% extends "base_main.html" %}
+
+{% block title %}행복나침반{% endblock %}
+{% block extra_styles %}
+
+<style>
+body {
+    width: 100vw; /* 뷰포트 너비에 맞게 설정 */
+    overflow-x: hidden; /* 가로 스크롤 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px; /* 화면의 중앙에 고정 */
+    margin: 0 auto; /* 좌우 여백을 자동으로 */
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* 스마트폰 크기에서 레이아웃 조정 */
+@media (max-width: 480px) {
+    .lost-pet-box,
+    .campaign-box,
+    .slider-container {
+        width: 95%; /* 화면에 꽉 차도록 너비 조정 */
+        max-width: none; /* 최대 너비 제한 해제 */
+        margin: 0 auto; /* 중앙 정렬 */
+    }
+}
+</style>
+{% endblock %}
+{% block content %}
+   <!-- 중앙 상단 문구 -->
+   <div class="lost-pet-box" id="lostPetBox">
+    잃어버린 아이를 찾습니다!
+</div>
+
+<!-- 슬라이드 박스 -->
+<div class="slider-container" id="sliderContainer">
+<div class="slider" id="slider">
+    {% for pet in lost_pets %}
+    <div class="slide" onclick="showPopup('{{ pet.name }}', '{{ pet.age }}', '{{ pet.gender }}', '{{ pet.breed }}', '{{ pet.lost_location }}', '{{ pet.personality }}', '{{ pet.favorite_things }}', '{{ pet.photo_path }}')">
+        <div class="pet-card">
+            <img src="{{ pet.photo_path }}" alt="Pet Photo" class="pet-photo">
+            <div class="pet-info">
+                <h3>{{ pet.name }}</h3>
+                <p>위치: {{ pet.lost_location }}</p>
+                <p>특이사항: {{ pet.personality }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+
+<!-- 캠페인 및 광고 박스 -->
+<div class="campaign-box">
+애견인 캠페인 및 행사 - 지금 참여하세요!
+</div>
+
+<!-- 팝업 창 -->
+<div class="popup-overlay" id="popupOverlay">
+<div class="popup-content">
+    <span class="close-btn" onclick="closePopup()">×</span>
+    <img id="popupPhoto" class="popup-photo" src="" alt="Pet Photo">
+    <div class="popup-header">
+        <h3 id="popupPetName">반려동물 이름</h3>
+    </div>
+    <div class="popup-detail">
+        <p><strong>나이:</strong> <span id="popupPetAge"></span></p>
+        <p><strong>성별:</strong> <span id="popupPetGender"></span></p>
+        <p><strong>품종:</strong> <span id="popupPetBreed"></span></p>
+        <p><strong>잃어버린 위치:</strong> <span id="popupLostLocation"></span></p>
+        <p><strong>특이사항:</strong> <span id="popupPersonality"></span></p>
+        <p><strong>좋아하는 것:</strong> <span id="popupFavoriteThings"></span></p>
+    </div>
+</div>
+</div>
+<!-- 챗봇 버튼 -->
+<div class="chatbot-icon" onclick="openChatPopup()">
+<img src="../static/images/chatbot_icon.png" alt="Chatbot" />
+</div>
+{% endblock %}
+{% block extra_scripts %}
+<script>
+    let currentIndex = 0;
+
+    // 슬라이드를 이동시키는 함수
+    function moveSlide(index) {
+        const slider = document.getElementById('slider');
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        // 슬라이드 전체 너비 계산
+        const slideWidth = slides[0].clientWidth;
+        slider.style.transform = `translateX(-${index * slideWidth}px)`;
+
+        // 인덱스 업데이트
+        currentIndex = index;
+
+        // 인덱스 순환 처리
+        if (currentIndex >= totalSlides) {
+            currentIndex = 0;
+        } else if (currentIndex < 0) {
+            currentIndex = totalSlides - 1;
+        }
+    }
+
+    // 다음 슬라이드로 이동
+    function nextSlide() {
+        moveSlide(currentIndex + 1);
+    }
+
+    // 이전 슬라이드로 이동
+    function prevSlide() {
+        moveSlide(currentIndex - 1);
+    }
+
+    // 페이지가 로드될 때 일정 시간마다 자동으로 다음 슬라이드로 이동
+    window.addEventListener('load', function() {
+        setInterval(nextSlide, 3000); // 3초마다 슬라이드 이동
+    });
+
+    // 팝업을 여는 함수
+    function showPopup(name, age, gender, breed, lost_location, personality, favorite_things, photo_path) {
+        document.getElementById('popupPetName').innerText = name;
+        document.getElementById('popupPetAge').innerText = age;
+        document.getElementById('popupPetGender').innerText = gender;
+        document.getElementById('popupPetBreed').innerText = breed;
+        document.getElementById('popupLostLocation').innerText = lost_location;
+        document.getElementById('popupPersonality').innerText = personality;
+        document.getElementById('popupFavoriteThings').innerText = favorite_things;
+        document.getElementById('popupPhoto').src = photo_path;
+        document.getElementById('popupOverlay').style.display = 'flex';
+    }
+
+    // 팝업을 닫는 함수
+    function closePopup() {
+        document.getElementById('popupOverlay').style.display = 'none';
+    }
+</script>
+        
+{% endblock %}

@@ -1,0 +1,175 @@
+/* 전체 페이지 스타일 */
+.find-lost-body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #F0EAD6;
+    margin: 0;
+    text-align: center;
+    padding-bottom: 100px; /* 하단 여백 추가 */
+}
+
+/* 버튼 컨테이너에 추가적인 여백 */
+.find-lost-container {
+    margin-bottom: 100px; /* 하단 메뉴바와 겹치지 않도록 여백 추가 */
+}
+
+.find-lost-title {
+    color: #FF6F61;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+@media (max-width: 480px) {
+    .find-lost-title {
+        font-size: 15px;
+    }
+}
+
+/* 카드형 레이아웃 */
+.find-lost-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 카드 최소 너비를 250px로 설정 */
+    gap: 20px;
+    justify-items: center;
+    margin-top: 20px;
+}
+
+.find-lost-card {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    transition: transform 0.3s ease;
+    width: 80%;
+    max-width: 100%; /* 카드 너비 제한 해제 */
+}
+
+/* 이미지 크기 조정 */
+.find-lost-card img {
+    width: 100%;
+    max-width: 200px; /* 이미지 최대 너비 증가 */
+    height: auto;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto 15px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .find-lost-card-container {
+        grid-template-columns: repeat(3, 1fr); /* 태블릿에서 카드 3개씩 */
+        gap: 15px;
+    }
+
+    .find-lost-card {
+        padding: 10px;
+    }
+
+    .find-lost-card h3 {
+        font-size: 1.1em;
+    }
+
+    .find-lost-card p {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    .find-lost-card-container {
+        grid-template-columns: 1fr; /* 스마트폰에서 카드 1개씩 */
+        gap: 10px;
+    }
+
+    .find-lost-card {
+        width: 100%; /* 가로로 꽉 차게 설정 */
+        padding: 10px;
+    }
+
+    .find-lost-card img {
+        max-width: 100px;
+    }
+}
+
+/* 버튼 스타일 */
+.find-lost-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: white;
+    background-color: #FF6F61;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.find-lost-btn:hover {
+    background-color: #D9574F;
+    transform: scale(1.05);
+}
+
+/* 팝업 스타일 */
+.find-lost-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    animation: popup-fade-in 0.4s ease;
+}
+
+.find-lost-popup-content {
+    background-color: white;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    position: relative;
+    animation: popup-scale-up 0.3s ease;
+}
+
+.find-lost-popup-content img {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.find-lost-popup-content h3 {
+    font-size: 1.6em;
+    color: #FF6F61;
+    margin-bottom: 10px;
+}
+
+.find-lost-popup-content p {
+    font-size: 1em;
+    color: #555;
+    margin: 8px 0;
+}
+
+.find-lost-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.5em;
+    color: #FF6F61;
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.find-lost-close-btn:hover {
+    color: #D9574F;
+}

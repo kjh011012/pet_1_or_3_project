@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Lost Pets and Campaigns{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mainstyle.css') }}">
+     <!-- 각 페이지별 CSS 파일 -->
+     {% block extra_styles %}{% endblock %}
+</head>
+<body>
+    <!-- 좌측 상단에 뒤로가기 버튼 
+    <i class="fa-solid fa-arrow-left back-button" onclick="goBack()"></i>
+ -->
+
+
+
+
+
+ 
+    <!-- 중앙 상단 이미지 버튼들 -->
+    <div class="lost-pet-box1">
+        <div class="icon-container">
+            <div class="icon-wrapper">
+                <button class="icon-button" onclick="location.href='{{ url_for('main') }}'">
+                    <img src="../static/images/main.png" alt="메인메뉴">
+                </button>
+                <p class="icon-text">메인메뉴</p>
+            </div>
+        
+            <div class="icon-wrapper">
+                <button class="icon-button" onclick="location.href='{{ url_for('find_lost_pet') }}'">
+                    <img src="../static/images/lost_pet.png" alt="잃어버린 우리 아이 찾기">
+                </button>
+                <p class="icon-text">미아찾기</p>
+            </div>
+            
+            <div class="icon-wrapper">
+                <button class="icon-button" onclick="location.href='{{ url_for('pet_training') }}'">
+                    <img src="../static/images/bone.png" alt="우리 아이 먹거리">
+                </button>
+                <p class="icon-text">행동교정</p>
+            </div>
+    
+            <div class="icon-wrapper">
+                <button class="icon-button" onclick="location.href='{{ url_for('travel_with_pet') }}'">
+                    <img src="../static/images/pen.png" alt="아이와 함께 여행을">
+                </button>
+                <p class="icon-text">여행</p>
+            </div>
+    
+            <div class="icon-wrapper">
+                <button class="icon-button" onclick="location.href='{{ url_for('adopt_pet') }}'">
+                    <img src="../static/images/welcome.png" alt="아이와 동반가능한 시설추천">
+                </button>
+                <p class="icon-text">동반시설</p>
+            </div>
+    
+            <div class="icon-wrapper">
+                <button class="icon-button" onclick="location.href='{{ url_for('find_vet') }}'">
+                    <img src="../static/images/hos.png" alt="가까운 동물 병원 찾기">
+                </button>
+                <p class="icon-text">동물병원</p>
+            </div>
+    
+            <div class="icon-wrapper">
+                <button class="icon-button" onclick="location.href='{{ url_for('temporary_shelter') }}'">
+                    <img src="../static/images/imsi.png" alt="임시 보호 신청">
+                </button>
+                <p class="icon-text">응급진단</p>
+            </div>
+    
+            <div class="icon-wrapper">
+                <button class="icon-button" onclick="location.href='{{ url_for('law') }}'">
+                    <img src="../static/images/FAQ.png" alt="law">
+                </button>
+                <p class="icon-text">법률정보</p>
+            </div>
+        </div>
+    </div>
+    </div>
+     <!-- 하단 네비게이션 바 -->
+<div class="bottom-nav">
+    <a href="{{ url_for('menubar.Noticeboard') }}" class="nav-item">
+        <i class="fa-solid fa-bullhorn"></i>
+        <span>공지사항</span>
+    </a>
+    <a href="{{ url_for('menubar.Free_bulletin_board') }}" class="nav-item">
+        <i class="fa-solid fa-comments"></i>
+        <span>간식 레시피</span>
+    </a>
+    <a href="{{ url_for('menubar.encyclopedia') }}" class="nav-item">
+        <i class="fa-solid fa-book"></i>
+        <span>동물사전</span>
+
+    <a href="{{ url_for('main') }}" class="nav-item">
+        <i class="fa-solid fa-home"></i>
+        <span>Main</span>
+    </a>
+    <a href="{{ url_for('qna.qna_list') }}" class="nav-item">
+        <i class="fa-solid fa-question-circle"></i>
+        <span>Q&A</span>
+    </a>
+    <a href="{{ url_for('menubar.setting') }}" class="nav-item">
+        <i class="fa-solid fa-user-cog"></i>
+        <span>나의 정보</span>
+    </a>
+    <a href="{{ url_for('menubar.logout') }}" class="nav-item">
+        <i class="fa-solid fa-sign-out-alt"></i>
+        <span>로그아웃</span>
+    </a>
+</div>
+
+    
+
+    <!-- 페이지 콘텐츠 영역 -->
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- 챗봇 아이콘 및 팝업 -->
+    <div class="chatbot-icon" onclick="openChatPopup()">
+        <img src="../static/images/chatbot_icon.png" alt="Chatbot" />
+    </div>
+    <div id="chatPopup" class="popup-overlay">
+        <div class="chatbot-popup-content">
+            <span class="close-btn" onclick="closeChatPopup()">×</span>
+            <iframe src="{{ url_for('chat') }}" width="100%" height="100%" style="border:none;"></iframe>
+        </div>
+    </div>
+
+    <!-- 스크립트 -->
+    <script>
+        // 메뉴 아이콘 클릭 시 드롭다운 메뉴 토글 및 슬라이드 연하게
+        const menuIcon = document.getElementById('menuIcon');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const sliderContainer = document.getElementById('sliderContainer');
+        const lostPetBox = document.getElementById('lostPetBox');
+    
+        menuIcon.addEventListener('click', function() {
+            const isMenuOpen = dropdownMenu.style.display === 'block';
+            dropdownMenu.style.display = isMenuOpen ? 'none' : 'block';
+            sliderContainer.style.opacity = isMenuOpen ? '1' : '0.5';
+            lostPetBox.style.opacity = isMenuOpen ? '1' : '0.5';
+        });
+    
+        dropdownMenu.addEventListener('mouseleave', function() {
+            dropdownMenu.style.display = 'none';
+            sliderContainer.style.opacity = '1';
+            lostPetBox.style.opacity = '1';
+        });
+        
+    
+        // 슬라이드 기능
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+    
+        function showNextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            const slider = document.getElementById('slider');
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+    
+        setInterval(showNextSlide, 5000);
+          // 챗봇 팝업 열기
+          function openChatPopup() {
+                document.getElementById('chatPopup').style.display = 'flex';
+            }
+    
+            // 챗봇 팝업 닫기
+            function closeChatPopup() {
+                document.getElementById('chatPopup').style.display = 'none';
+            }
+    
+        // 팝업 열기
+        function showPopup(name, age, gender, breed, lostLocation, personality, favoriteThings, photoPath) {
+            document.getElementById('popupPetName').textContent = name;
+            document.getElementById('popupPetAge').textContent = age;
+            document.getElementById('popupPetGender').textContent = gender;
+            document.getElementById('popupPetBreed').textContent = breed;
+            document.getElementById('popupLostLocation').textContent = lostLocation;
+            document.getElementById('popupPersonality').textContent = personality;
+            document.getElementById('popupFavoriteThings').textContent = favoriteThings;
+            document.getElementById('popupPhoto').src = photoPath;
+    
+            document.getElementById('popupOverlay').style.display = 'flex';
+        }
+        
+    
+        // 팝업 닫기
+        function closePopup() {
+            document.getElementById('popupOverlay').style.display = 'none';
+        }
+        //하단메뉴바 스크롤
+        let lastScrollY = window.scrollY;
+    const bottomNav = document.querySelector('.bottom-nav');
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let lastScrollY = window.scrollY;
+        const bottomNav = document.querySelector('.bottom-nav');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > lastScrollY) {
+                // 스크롤을 내릴 때 메뉴바 숨기기
+                bottomNav.classList.add('hide');
+            } else {
+                // 스크롤을 올릴 때 메뉴바 보이기
+                bottomNav.classList.remove('hide');
+            }
+            lastScrollY = window.scrollY;
+        });
+    });
+    </script>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

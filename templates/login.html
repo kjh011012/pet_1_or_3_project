@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <!-- External CSS 추가 -->
+    <link rel="stylesheet" href="../static/css/loginstyle.css">
+    <!-- FontAwesome 추가 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="form-container">
+        <!-- 좌측 상단에 뒤로가기 버튼 추가 -->
+        <i class="fa-solid fa-arrow-left back-button" onclick="goBack()"></i>
+        
+        <!-- 에러 메시지 -->
+        <div class="error" style="display: {{ 'block' if error else 'none' }};">
+            <p>{{ error }}</p>
+        </div>
+
+        <h2>L o g i n</h2>
+        
+        <form method="POST">
+            <div class="form-group">
+                <label for="Email">Email:</label>
+                <input type="email" id="Email" name="Email" required>
+            </div>
+            <div class="form-group">
+                <label for="Password">Password:</label>
+                <input type="password" id="Password" name="Password" required>
+            </div>
+            <button type="submit">로 그 인</button>
+        </form>
+        <p class="signup-link">회원이 아니신가요? <a href="{{ url_for('signup') }}">회원가입</a></p>
+    </div>
+
+    <script>
+        // 뒤로가기 함수 (브라우저의 이전 페이지로 돌아가기)
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

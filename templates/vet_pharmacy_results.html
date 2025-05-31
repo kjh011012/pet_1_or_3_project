@@ -1,0 +1,186 @@
+{% extends "base_main.html" %}
+
+{% block title %}추천 장소{% endblock %}
+{% block extra_styles %}
+<style>
+    body {
+        width: 100vw;
+        overflow-x: hidden;
+        padding: 0;
+        margin: 0;
+        font-family: 'Noto Sans', sans-serif;
+        background-color: #F0EAD6;
+        text-align: center;
+        padding-bottom: 100px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        font-size: 1.8em;
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    /* 그리드 스타일 */
+    ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* 카드 스타일 */
+    .card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        padding: 1rem;
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card h3 {
+        font-size: 1em;
+        margin: 0.5em 0;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* 팝업 스타일 */
+    .popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .popup-content {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        max-width: 400px;
+        width: 90%;
+        text-align: left;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .popup-content h3 {
+        margin-top: 0;
+    }
+
+    .popup-content p {
+        font-size: 0.9em;
+        color: #333;
+    }
+
+    .close-btn {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.9em;
+        background-color: #FF6F61;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .close-btn:hover {
+        background-color: #e85c4f;
+    }
+    p{
+        color: #e85c4f;
+        font-size: 20px;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<p>클릭하여 정보를 확인하세요.</p>
+
+<ul>
+    {% for place in places %}
+    <li class="card" onclick="openPopup('{{ place['name'] }}', '{{ place['road_address'] }}', '{{ place['contact'] }}', {{ place['latitude'] }}, {{ place['longitude'] }})">
+        <h3>{{ place['name'] }}</h3>
+    </li>
+    {% endfor %}
+</ul>
+
+<!-- 팝업 오버레이 -->
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-content">
+        <h3 id="popupName"></h3>
+        <p><strong>도로명 주소:</strong> <span id="popupRoadAddress"></span></p>
+        <p><strong>전화번호:</strong> <span id="popupContact"></span></p>
+        <div id="map" style="width: 100%; height: 200px; margin-top: 15px;"></div>
+        <button class="close-btn" onclick="closePopup()">닫기</button>
+    </div>
+</div>
+
+<!-- 카카오맵 API 스크립트 추가 -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=47dc07043462b96e1ace2296e8be8836" onload="console.log('카카오맵 API 로드 완료')"></script>
+
+<script>
+let map, marker;
+
+function openPopup(name, roadAddress, contact, latitude, longitude) {
+    console.log("openPopup 호출됨");  // 디버깅용 로그
+    document.getElementById("popupName").textContent = name;
+    document.getElementById("popupRoadAddress").textContent = roadAddress;
+    document.getElementById("popupContact").textContent = contact;
+
+    if (!map) {
+        const mapContainer = document.getElementById('map');
+        const mapOption = { 
+            center: new kakao.maps.LatLng(latitude, longitude), 
+            level: 3 
+        };
+        map = new kakao.maps.Map(mapContainer, mapOption);
+
+        marker = new kakao.maps.Marker({
+            position: new kakao.maps.LatLng(latitude, longitude),
+            map: map
+        });
+    } else {
+        const moveLatLon = new kakao.maps.LatLng(latitude, longitude);
+        map.setCenter(moveLatLon);
+        marker.setPosition(moveLatLon);
+    }
+
+    // 팝업 오버레이 표시
+    document.getElementById("popupOverlay").style.display = "flex";
+
+    // 지도가 팝업 내에서 올바르게 중앙에 오도록 설정
+    setTimeout(() => {
+        map.relayout();
+    }, 100);  // 100ms 지연 후 레이아웃 재조정
+}
+function closePopup() {
+    document.getElementById("popupOverlay").style.display = "none";
+}
+</script>
+{% endblock %}

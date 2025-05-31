@@ -1,0 +1,841 @@
+/* 기본 스타일 */
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #F0EAD6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+}
+
+/* 컨테이너 스타일 */
+.container {
+    background-color: #FFFFFF;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 18px 36px rgba(0, 0, 0, 0.1);
+    width: 90vw;
+    max-width: 1000px;
+    position: relative;
+    overflow-y: auto; /* 세로 스크롤 가능하도록 설정 */
+    max-height: 90vh; /* 화면의 90% 높이로 제한 */
+    padding-bottom: 80px; /* 하단 메뉴바를 피하기 위한 여백 */
+}
+
+
+/* 게시판 상단 스타일 */
+.board-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.board-header h2 {
+    color: #FF6F61;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+/* 게시판 하단 스타일 */
+.board-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.add-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.add-btn:hover {
+    background-color: #45A049;
+}
+
+/* 카드 컨테이너: 3개씩 나열 */
+.qna-card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3개의 카드가 좌에서 우로 나열 */
+    gap: 1rem;
+}
+
+.qna-card {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    padding: 1rem;
+    text-align: left;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.qna-card:hover {
+    transform: translateY(-5px); /* 카드 호버 시 살짝 올라오는 효과 */
+}
+
+.qna-card-header h3 a {
+    color: #FF6F61;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.qna-card-header h3 a:hover {
+    color: #D9574F;
+}
+
+.qna-card-content p {
+    margin: 0.5rem 0;
+    color: #333;
+}
+
+.qna-card-footer {
+    text-align: right;
+}
+
+.detail-btn {
+    background-color: #4A90E2;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.detail-btn:hover {
+    background-color: #3A7DCB;
+}
+
+/* 반응형 설정 */
+@media (max-width: 768px) {
+    .qna-card-container {
+        grid-template-columns: repeat(2, 1fr); /* 화면이 작아지면 2개씩 나열 */
+    }
+}
+
+@media (max-width: 480px) {
+    .qna-card-container {
+        grid-template-columns: 1fr; /* 모바일에서는 1개씩 나열 */
+    }
+}
+
+/* <- 모든 페이지의 뒤로가기 버튼 */
+.back-button {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 1.5rem;
+    color: #FF6F61;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.2s;
+}
+
+.back-button:hover {
+    color: #D9574F;
+    transform: translateX(-5px);
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .btn {
+        font-size: 1.1rem;
+        padding: 0.75rem;
+    }
+
+    .back-button {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 0.7rem;
+    }
+
+    .back-button {
+        font-size: 1rem;
+    }
+}
+.back-button {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 1.8rem;
+    color: #FF6F61; /* 따뜻한 핑크색 아이콘 */
+    cursor: pointer;
+    transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.back-button:hover {
+    color: #D9574F; /* 호버 시 색상 변경 */
+    transform: translateX(-5px); /* 아이콘이 살짝 왼쪽으로 이동하는 효과 */
+}
+/* 게시판 상단 스타일 */
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.board-header h2 {
+    color: #FF6F61;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.add-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.add-btn:hover {
+    background-color: #45A049;
+}
+/*여기까지가 모든페이지의 뒤로가기 버튼 -----------------------*/
+/*모든 입력 폼 컨테이너 시작점*/
+.qna-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* 입력 필드 스타일 */
+.qna-form label {
+    display: block;
+    font-weight: bold;
+    color: #8D6E63;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.qna-form input[type="text"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #8D6E63;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.qna-form input[type="text"]:focus {
+    border-color: #FF6F61;
+    outline: none;
+    transform: scale(1.02); /* 살짝 커지는 효과 */
+}
+
+/* 추가 버튼 스타일 */
+.submit-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #FF6F61;
+    border: none;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.submit-btn:hover {
+    background-color: #D9574F;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px); /* 살짝 떠오르는 효과 */
+}
+
+/* QnA 목록으로 돌아가기 링크 스타일 */
+.back-link {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: #4A90E2;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+.back-link:hover {
+    color: #3A7DCB;
+    text-decoration: underline;
+}
+/* 상세보기 페이지 스타일 */
+.qna-detail {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+/* 제목 스타일 */
+.qna-detail h2 {
+    color: #FF6F61;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #FF6F61;
+    padding-bottom: 0.5rem;
+}
+
+/* 정보 텍스트 스타일 */
+.qna-info {
+    font-size: 1rem;
+    color: #8D6E63;
+    margin-bottom: 1.5rem;
+}
+
+.qna-info strong {
+    font-weight: bold;
+}
+
+/* 질문 내용과 답변 스타일 */
+.qna-content {
+    background-color: #F9F3E8;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.qna-content p {
+    margin: 0.5rem 0;
+    color: #333;
+}
+
+.qna-answer {
+    background-color: #E8F5E9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+    color: #2E7D32;
+}
+
+/* 상세보기 페이지에서 버튼 하단 여백 추가 */
+.qna-actions {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 1rem;
+    padding-bottom: 100px; /* 하단 메뉴바에 가려지지 않도록 여백 추가 */
+}
+
+/* 버튼 스타일 */
+.qna-actions .btn {
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.qna-actions .btn:hover {
+    transform: translateY(-3px); /* 호버 시 살짝 떠오르는 효과 */
+}
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .qna-actions .btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem; /* 버튼 패딩 조정 */
+    }
+}
+
+@media (max-width: 480px) {
+    .qna-actions .btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem; /* 스마트폰에서 버튼 패딩 축소 */
+        width: 100%; /* 세로로 정렬되는 경우 대비 */
+        margin-bottom: 10px;
+    }
+    
+    .container {
+        padding: 1rem;
+        padding-bottom: 100px; /* 하단 메뉴바에 가려지지 않도록 여백 추가 */
+    }
+}
+
+/* 수정 버튼 */
+.edit-btn {
+    background-color: #4A90E2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 깊이감 있는 그림자 */
+}
+
+.edit-btn:hover {
+    background-color: #3A7DCB;
+}
+
+/* 삭제 버튼 */
+.delete-btn {
+    background-color: #FF5C5C;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.delete-btn:hover {
+    background-color: #D94A4A;
+}
+
+/* QnA 목록으로 돌아가기 버튼 */
+.back-btn {
+    background-color: #FF6F61;
+    color: #FFFFFF;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-btn:hover {
+    background-color: #D9574F;
+    transform: translateY(-3px);
+}
+/* 수정 페이지 스타일 */
+.qna-edit {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+/* 제목 스타일 */
+.qna-edit h2 {
+    color: #FF6F61;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* 입력 필드 스타일 */
+.qna-form label {
+    display: block;
+    font-weight: bold;
+    color: #8D6E63;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.qna-form input[type="text"],
+.qna-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #8D6E63;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.qna-form input[type="text"]:focus,
+.qna-form textarea:focus {
+    border-color: #FF6F61;
+    outline: none;
+    transform: scale(1.02); /* 살짝 커지는 효과 */
+}
+
+/* 질문자 필드 */
+.qna-form input[type="text"] {
+    margin-bottom: 1.5rem;
+}
+
+/* 질문 내용 텍스트 영역 */
+.qna-form textarea {
+    height: 200px; /* 질문 내용 필드의 높이 설정 */
+    resize: none;
+    margin-bottom: 1.5rem;
+}
+
+/* 수정 완료 버튼 스타일 */
+.submit-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #FF6F61;
+    border: none;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.submit-btn:hover {
+    background-color: #D9574F;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px); /* 살짝 떠오르는 효과 */
+}
+
+/* 바 아이콘 및 드롭다운 메뉴 스타일 시작 */
+/* 메뉴바 스타일 */
+.menu-bar {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.8rem;
+    color: #FF6F61;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.menu-bar .fa-bars:hover {
+    color: #D9574F;
+    transform: scale(1.1);
+}
+
+/* 드롭다운 메뉴 스타일 */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 2.5rem;
+    right: 1rem;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 200px;
+    z-index: 1000;
+    text-align: left;
+    padding: 0.5rem 0;
+}
+
+/* 드롭다운 메뉴 항목 스타일 */
+.dropdown-menu a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.dropdown-menu a:hover {
+    background-color: #FF6F61;
+    color: #FFFFFF;
+    border-radius: 4px;
+}
+
+/* 드롭다운 메뉴 보이기 */
+.show {
+    display: block;
+}
+
+/* 모바일 반응형 스타일 */
+@media (max-width: 768px) {
+    .dropdown-menu {
+        width: 90vw; /* 화면에 맞게 너비 설정 */
+        right: 5%; /* 화면의 5% 여백을 두고 가운데 정렬 */
+        top: 4rem; /* 아이콘과의 간격 설정 */
+        border-radius: 8px;
+    }
+
+    .menu-bar {
+        font-size: 1.5rem; /* 아이콘 크기 조정 */
+    }
+
+    .dropdown-menu a {
+        padding: 1rem; /* 터치하기 쉽게 패딩 추가 */
+        font-size: 1.1rem; /* 텍스트 크기 증가 */
+    }
+}
+
+/* 큰 화면에서는 드롭다운 메뉴 기본 너비 유지 */
+@media (min-width: 769px) {
+    .dropdown-menu {
+        width: 200px;
+    }
+}
+/* 모바일 환경에서 컨테이너 및 카드 레이아웃 조정 */
+@media (max-width: 480px) {
+    .container {
+        width: 95vw; /* 화면에 꽉 차도록 */
+        padding: 1rem; /* 여백 조정 */
+    }
+
+    /* 카드 레이아웃: 모바일에서 한 줄에 하나씩 */
+    .qna-card-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* 드롭다운 메뉴 크기 및 위치 */
+    .menu-bar {
+        font-size: 1.5rem;
+    }
+
+    /* 글꼴 크기 조정 */
+    h1, .board-header h2, .qna-edit h2, .qna-detail h2 {
+        font-size: 1.6rem;
+    }
+
+    /* 버튼 크기 조정 */
+    .btn, .submit-btn {
+        font-size: 1rem;
+        padding: 0.6rem;
+    }
+
+    /* 드롭다운 메뉴의 항목 크기 및 여백 */
+    .dropdown-menu a {
+        font-size: 1rem;
+        padding: 0.8rem 1rem;
+    }
+
+    /* 뒤로가기 버튼 크기 조정 */
+    .back-button {
+        font-size: 1.3rem;
+    }
+}
+
+/* 태블릿 환경에서 카드 레이아웃 조정 */
+@media (max-width: 768px) and (min-width: 481px) {
+    .qna-card-container {
+        grid-template-columns: 1fr 1fr; /* 태블릿에서 두 개씩 나열 */
+    }
+
+    .container {
+        padding: 1.5rem;
+    }
+}
+/* 모바일 환경에서 질문 목록 컨테이너에 고정 높이 설정 */
+@media (max-width: 480px) {
+    /* 전체 컨테이너 고정 높이 및 스크롤 설정 */
+    .container {
+        height: 90vh; /* 화면의 90% 높이로 설정 */
+        overflow-y: hidden; /* 기본적으로 전체 페이지에서 스크롤이 발생하지 않도록 설정 */
+        padding: 1rem;
+    }
+
+    /* 질문 목록이 많을 때 스크롤 가능하도록 설정 */
+    .qna-card-container {
+        max-height: 60vh; /* 화면의 60% 높이로 설정하여 상단 영역이 항상 보이도록 */
+        overflow-y: auto; /* 세로 스크롤 가능하도록 */
+        padding-right: 0.5rem; /* 스크롤 바와의 간격 확보 */
+    }
+}
+
+/*관리자모드*/
+/* 질문 텍스트 스타일 */
+.question-text {
+    font-size: 1.3rem;
+    color: #333;
+    background-color: #F9F3E8;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+/* 답변 시간 스타일 */
+.answer-time {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: #8D6E63;
+    font-weight: bold;
+}
+/* QnA 페이지 기본 스타일 */
+.qna-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 60vh; /* 최대 높이 설정 */
+    overflow-y: auto; /* 질문이 많을 경우 세로 스크롤 */
+    padding: 0 1rem;
+    margin: 0 auto;
+}
+
+/* QnA 아이템 (질문 항목) 스타일 */
+.qna-item {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    text-align: left;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.qna-item:hover {
+    transform: translateY(-5px); /* 호버 시 살짝 올라오는 효과 */
+}
+
+/* 질문 및 답변 텍스트 스타일 */
+.qna-question, .qna-answer {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.qna-question strong, .qna-answer strong {
+    color: #FF6F61;
+}
+
+.qna-question p, .qna-answer p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+/* QnA 액션 버튼 스타일 */
+.qna-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+/* 통일된 버튼 스타일 */
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #FFFFFF;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.2s;
+    text-align: center;
+}
+
+/* 답변 수정 버튼 */
+.edit-answer-btn {
+    background-color: #4A90E2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.edit-answer-btn:hover {
+    background-color: #3A7DCB;
+}
+
+/* 상세 보기 버튼 */
+.detail-btn {
+    background-color: #FF6F61;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.detail-btn:hover {
+    background-color: #D9574F;
+}
+
+/* 질문 추가 버튼 */
+.add-btn {
+    background-color: #4CAF50;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    display: block;
+    text-align: center;
+    max-width: 200px;
+    margin: 1rem auto;
+}
+
+.add-btn:hover {
+    background-color: #45A049;
+}
+
+/* 질문 텍스트 스타일 (관리자 모드) */
+.question-text {
+    font-size: 1.3rem;
+    color: #333;
+    background-color: #F9F3E8;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+/* 답변 시간 스타일 (관리자 모드) */
+.answer-time {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: #8D6E63;
+    font-weight: bold;
+}
+
+/* 반응형 설정 */
+@media (max-width: 768px) {
+    .qna-card-container {
+        grid-template-columns: repeat(2, 1fr); /* 화면이 작아지면 2개씩 나열 */
+    }
+
+    .qna-list {
+        max-height: 70vh; /* 태블릿에서 높이 조정 */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95vw; /* 화면에 꽉 차도록 */
+        padding: 1rem; /* 여백 조정 */
+    }
+
+    .qna-list {
+        max-height: 60vh; /* 모바일에서 질문 리스트 높이 제한 */
+    }
+
+    /* 카드 레이아웃: 모바일에서 한 줄에 하나씩 */
+    .qna-card-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* 글꼴 크기 조정 */
+    h1, .board-header h2, .qna-edit h2, .qna-detail h2 {
+        font-size: 1.6rem;
+    }
+
+    /* 버튼 크기 조정 */
+    .btn, .submit-btn {
+        font-size: 1rem;
+        padding: 0.6rem;
+    }
+}

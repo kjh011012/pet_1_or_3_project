@@ -1,0 +1,10 @@
+{% extends "base_qna.html" %}
+{% block content %}
+    <p>정말로 삭제하시겠습니까?</p>
+    <p>질문: {{ qna.question }}</p>
+    <p>답변: {{ qna.answer or '답변 없음' }}</p>
+    
+    <form action="{{ url_for('qna.delete_qna', qna_id=qna.id) }}" method="POST" class="delete-form">
+        <button type="submit" class="btn delete-btn">삭제</button>
+    </form>
+{% endblock %}

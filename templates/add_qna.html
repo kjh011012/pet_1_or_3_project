@@ -1,0 +1,12 @@
+{% extends "base_qna.html" %}
+{% block content %}
+    <form action="{{ url_for('qna.add_qna') }}" method="POST" class="qna-form">
+        <label for="author">작성자:</label>
+        <input type="text" id="author" name="author" required>
+
+        <label for="question">질문:</label>
+        <input type="text" id="question" name="question" required>
+        
+        <button type="submit" class="btn submit-btn">추가</button>
+    </form>
+{% endblock %}

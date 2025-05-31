@@ -1,0 +1,140 @@
+{% extends "base_main.html" %}
+
+{% block title %}반려동물과 여행{% endblock %}
+
+{% block extra_styles %}
+<style>
+/* 전체 페이지 스타일 */
+body {
+    width: 100vw; /* 뷰포트 너비에 맞게 설정 */
+    overflow-x: hidden; /* 가로 스크롤 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px; /* 화면의 중앙에 고정 */
+    margin: 0 auto; /* 좌우 여백을 자동으로 */
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* 스마트폰 크기에서 레이아웃 조정 */
+@media (max-width: 480px) {
+    .lost-pet-box,
+    .campaign-box,
+    .slider-container {
+        width: 95%; /* 화면에 꽉 차도록 너비 조정 */
+        max-width: none; /* 최대 너비 제한 해제 */
+        margin: 0 auto; /* 중앙 정렬 */
+    }
+}
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #F0EAD6; /* 부드러운 배경색 */
+    margin: 0;
+    text-align: center;
+    padding-bottom: 100px;
+}
+
+/* 컨테이너 설정 */
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: #FFFFFF; /* 카드 배경을 화이트로 설정 */
+    padding: 0;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* 부드러운 그림자 */
+    width: 40%; /* 더 큰 화면에서 카드가 더 넓게 표시 */
+    max-width: 100%;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* 이미지가 카드 영역을 넘지 않도록 */
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 카드 영역을 꽉 채우도록 */
+    border-radius: 10px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* 모바일과 작은 화면에서도 동일한 레이아웃 유지 */
+@media (max-width: 768px) {
+    .card-container {
+        justify-content: space-around;
+    }
+    .card {
+        width: 30%;
+    }
+}
+
+/* 버튼 스타일 */
+.find-lost-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: white;
+    background-color: #FF6F61;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.find-lost-btn:hover {
+    background-color: #D9574F;
+    transform: scale(1.05);
+}
+p{
+    color: #D9574F;
+    font-size: 15px;
+    font-weight: bold;
+    opacity: 0.7;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<p>반려동물과 함께 할 수 있는 장소만을 추천 받아 보세요!</p>
+
+<div class="card-container">
+    <!-- 첫 번째 카드: 관광지, 문화예술센터, 공원 검색 -->
+    <div class="card" onclick="window.location.href='{{ url_for('search.search_places') }}'">
+        <img src="{{ url_for('static', filename='../static/images/drive.png') }}" alt="관광지 이미지">
+    </div>
+
+    <!-- 두 번째 카드: 숙박업소, 식당, 카페, 동물용품점 추천 -->
+    <div class="card" onclick="window.location.href='{{ url_for('recommend.recommend_places') }}'">
+        <img src="{{ url_for('static', filename='../static/images/cafe.png') }}" alt="숙박업소 이미지">
+    </div>
+    
+    <!-- 세 번째 카드: 동물병원, 동물약국 추천 -->
+    <div class="card" onclick="window.location.href='{{ url_for('health.find_vet_pharmacy') }}'">
+        <img src="{{ url_for('static', filename='../static/images/hos_1.png') }}" alt="동물병원 이미지">
+    </div>
+</div>
+
+{% endblock %}

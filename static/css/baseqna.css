@@ -1,0 +1,131 @@
+/* 기본 설정 */
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #F0EAD6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+}
+
+/* 공통 컨테이너 */
+.container {
+    background-color: #FFFFFF;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 18px 36px rgba(0, 0, 0, 0.1);
+    width: 90vw;
+    max-width: 1000px;
+    position: relative;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+/* 게시판 스타일 */
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.board-header h2 {
+    color: #FF6F61;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+/* QnA 카드 */
+.qna-card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+.qna-card {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    padding: 1rem;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 상단과 하단 정렬 */
+}
+.qna-card:hover {
+    transform: translateY(-5px);
+}
+.qna-card-header h3 a {
+    color: #FF6F61;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+.qna-card-header h3 a:hover {
+    color: #D9574F;
+}
+
+/* 기본 버튼 스타일 */
+.add-btn, .submit-btn, .edit-btn, .delete-btn, .back-btn, .detail-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: bold;
+    color: #FFFFFF;
+    transition: background-color 0.3s ease, transform 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    font-size: 1rem;
+}
+.add-btn { background-color: #4CAF50; }
+.add-btn:hover { background-color: #45A049; }
+.submit-btn, .back-btn { background-color: #FF6F61; }
+.submit-btn:hover, .back-btn:hover { background-color: #D9574F; }
+
+.detail-btn {
+    background-color: #4A90E2;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease-in-out;
+    text-decoration: none; /* 밑줄 제거 */
+}
+.detail-btn:hover {
+    background-color: #3A7DCB;
+}
+.delete-btn { background-color: #4A90E2; }
+.delete-btn:hover { background-color: #D94A4A; }
+/* 상세보기 버튼 */
+.qna-card-footer {
+    text-align: right; /* 우측 정렬 */
+    margin-top: auto; /* 아래쪽에 위치 */
+}
+/* 반응형 레이아웃 */
+@media (max-width: 768px) {
+    .qna-card-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 480px) {
+    .qna-card-container {
+        grid-template-columns: 1fr;
+    }
+    .container {
+        padding: 1rem;
+    }
+}
+
+
+/* 뒤로 가기 버튼 스타일 */
+.back-button {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 1.8rem;
+    color: #FF6F61;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+.back-button:hover {
+    color: #D9574F;
+    transform: translateX(-5px);
+}

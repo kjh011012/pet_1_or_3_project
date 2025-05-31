@@ -1,0 +1,46 @@
+# ✅ Python 백엔드 관련
+__pycache__/
+*.py[cod]
+*.so
+*.log
+*.sqlite3
+*.sqlite3-journal
+venv/
+env/
+ENV/
+.venv/
+instance/
+.webassets-cache
+*.pkl
+
+# ✅ 프론트엔드 도구 (만약 사용 중이라면)
+node_modules/
+dist/
+build/
+
+# ✅ 테스트 및 캐시
+coverage/
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+.tox/
+.nox/
+
+# ✅ 운영체제 / IDE 설정
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# ✅ 환경변수/설정 파일
+.env
+.env.*
+
+# ✅ 프로젝트 내 외부 static 리소스 무시 (필요 시 제외 가능)
+*.zip
+*.tar.gz
+
+# ✅ 기타 직접 지정
+# card-app/ ← 필요 시 제외할 폴더 수동 지정 가능
